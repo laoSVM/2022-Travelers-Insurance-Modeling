@@ -11,7 +11,6 @@ st.set_page_config(**PAGE_CONFIG)
 
 @st.cache
 def get_model(benchmark_file):
-  pass
   with open(benchmark_file, 'rb') as f:
     benchmark = pickle.load(f)
   return benchmark["model"], list(benchmark["dataset"].drop(['policy_id', 'split', 'convert_ind'], 1).columns)
@@ -34,6 +33,9 @@ predictors = pd.DataFrame(np.zeros(len(columns)).reshape(1,-1), columns=columns)
 
 
 def main():
+  '''
+  streamlit app
+  '''
   st.title("Streamlit App for 2022 Travelers")
   # side panel
   with st.sidebar:
