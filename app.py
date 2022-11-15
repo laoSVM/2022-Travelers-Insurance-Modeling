@@ -80,7 +80,7 @@ def main():
   tab1, tab2, predictionTab = st.tabs(["Cat", "Dog", "Prediction"])
   with predictionTab:
     if submitted:
-      st.write(f'You picked {state_id}')
+      #st.write(f'You picked {state_id}')
 
       predictors['total_number_veh'] = total_number_veh
       predictors['CAT_zone'] = CAT_zone
