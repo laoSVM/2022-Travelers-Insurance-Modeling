@@ -1,8 +1,8 @@
+import pickle
+import os
 import streamlit as st
 import pandas as pd
 import numpy as np
-import pickle
-import os
 import lightgbm as lgb
 
 # st.set_option("browser.gatherUsageStats", False)
