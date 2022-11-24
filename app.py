@@ -16,7 +16,6 @@ def get_model(benchmark_file):
         benchmark = pickle.load(f)
     return benchmark["model"], list(benchmark["dataset"].drop(['policy_id', 'split', 'convert_ind'], 1).columns)
 
-
 def preprocess(df):
     columns = df.select_dtypes(include=["object_"]).columns
     lbEncode = {'state_id': {'AL': 0, 'CT': 1, 'FL': 2, 'GA': 3, 'MN': 4, 'NJ': 5, 'NY': 6, 'WI': 7}, 'discount': {'No': 0, 'Yes': 1}, 'Prior_carrier_grp': {'Carrier_1': 0, 'Carrier_2': 1, 'Carrier_3': 2, 'Carrier_4': 3, 'Carrier_5': 4, 'Carrier_6': 5, 'Carrier_7': 6, 'Carrier_8': 7, 'Other': 8}}
@@ -24,13 +23,11 @@ def preprocess(df):
         df[cat_col] = df[cat_col].map(lbEncode[cat_col])
     return df
 
-
 def make_prediction(df: any, model: any) -> any:
     return model.predict_proba(df)[:,1]
 
 clf, columns = get_model(benchmark_file)
 predictors = pd.DataFrame(np.zeros(len(columns)).reshape(1,-1), columns=columns)
-
 
 def main():
     st.title("Streamlit App for 2022 Travelers")
@@ -38,7 +35,7 @@ def main():
     with st.sidebar:
         st.subheader("Inputs")
         st.markdown("**Personal Information**")
-        quoted_amt = st.number_input(
+        predictors['quoted_amt'] = st.number_input(
             "Quoted Amt:",
             0.0,9999999.0,5876.0,
             step=1.0
@@ -82,14 +79,14 @@ def main():
     tab1, tab2, predictionTab = st.tabs(["Time Series", "Customer Group", "Prediction"])
     with predictionTab:
         if submitted:
-            predictors['quoted_amt'] = quoted_amt
-            predictors['total_number_veh'] = total_number_veh
-            predictors['CAT_zone'] = CAT_zone
-            predictors['state_id'] = state_id
-            predictors['discount'] = int(discount)
-            predictors['Prior_carrier_grp'] = Prior_carrier_grp
-            predictors['drivers_age'] = drivers_age
-            predictors['credit_score'] = credit_score
+            # predictors['quoted_amt'] = quoted_amt
+            # predictors['total_number_veh'] = total_number_veh
+            # predictors['CAT_zone'] = CAT_zone
+            # predictors['state_id'] = state_id
+            # predictors['discount'] = int(discount)
+            # predictors['Prior_carrier_grp'] = Prior_carrier_grp
+            # predictors['drivers_age'] = drivers_age
+            # predictors['credit_score'] = credit_score
 
             st.dataframe(predictors)
             predictorsTrans = preprocess(predictors)
