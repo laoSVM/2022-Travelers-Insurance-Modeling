@@ -40,36 +40,36 @@ def main():
             0.0,9999999.0,5876.0,
             step=1.0
         )
-        drivers_age = st.number_input(
+        predictors['drivers_age'] = st.number_input(
             "Customer age:",
             0.0,100.0,40.0,
             step=1.0
         )
-        credit_score = st.number_input(
+        predictors['credit_score'] = st.number_input(
             "Customer credit score:",
             300.0,850.0,642.0,
             step=1.0
         )
-        total_number_veh = st.number_input(
+        predictors['total_number_veh'] = st.number_input(
             "Total number vehicles on the policy:",
             1,10,3,
             step=1
         )
-        Prior_carrier_grp = st.selectbox(
+        predictors['Prior_carrier_grp'] = st.selectbox(
             "Prior carrier group:",
             ['Carrier_1','Carrier_2','Carrier_3','Carrier_4','Carrier_5','Carrier_6','Carrier_7','Carrier_8','other']
         )
-        discount = st.checkbox("Discount applied")
+        predictors['discount'] = st.checkbox("Discount applied")
 
         st.markdown("---")
 
         st.markdown("**Location Information**")
-        state_id = st.selectbox(
-        'Pick the state:',
-        ['NY', 'FL', 'NJ', 'CT', 'MN', 'WI', 'AL', 'GA'])
-        CAT_zone = st.select_slider(
-        'CAT_zone', 
-        [1,2,3,4,5])
+        predictors['state_id'] = st.selectbox(
+            'Pick the state:',
+            ['NY', 'FL', 'NJ', 'CT', 'MN', 'WI', 'AL', 'GA'])
+        predictors['CAT_zone'] = st.select_slider(
+            'CAT_zone', 
+            [1,2,3,4,5])
         submitted = st.button('Submit')
     
   # main panel
