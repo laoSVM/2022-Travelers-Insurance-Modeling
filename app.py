@@ -8,14 +8,14 @@ import lightgbm as lgb
 # st.set_option("browser.gatherUsageStats", False)
 PAGE_CONFIG = {"page_title":"StColab.io","page_icon":":smiley:","layout":"wide"}
 st.set_page_config(**PAGE_CONFIG)
+benchmark_file = "benchmark_2.pkl"
 
 @st.cache
 def get_model(benchmark_file):
     with open(benchmark_file, 'rb') as f:
         benchmark = pickle.load(f)
     return benchmark["model"], list(benchmark["dataset"].drop(['policy_id', 'split', 'convert_ind'], 1).columns)
-benchmark_file = "benchmark_1.pkl"
-clf, columns = get_model(benchmark_file)
+
 
 def preprocess(df):
     columns = df.select_dtypes(include=["object_"]).columns
@@ -25,10 +25,10 @@ def preprocess(df):
     return df
 
 
-def make_prediction(df, model):
+def make_prediction(df: any, model: any) -> any:
     return model.predict_proba(df)[:,1]
 
-# columns = ['drivers_age',	'credit_score',	'total_number_veh',	'CAT_zone',	'state_id',	'discount',	'Prior_carrier_grp']
+clf, columns = get_model(benchmark_file)
 predictors = pd.DataFrame(np.zeros(len(columns)).reshape(1,-1), columns=columns)
 
 
@@ -38,6 +38,11 @@ def main():
     with st.sidebar:
         st.subheader("Inputs")
         st.markdown("**Personal Information**")
+        quoted_amt = st.number_input(
+            "Quoted Amt:",
+            0.0,9999999.0,5876.0,
+            step=1.0
+        )
         drivers_age = st.number_input(
             "Customer age:",
             0.0,100.0,40.0,
@@ -77,6 +82,7 @@ def main():
     tab1, tab2, predictionTab = st.tabs(["Time Series", "Customer Group", "Prediction"])
     with predictionTab:
         if submitted:
+            predictors['quoted_amt'] = quoted_amt
             predictors['total_number_veh'] = total_number_veh
             predictors['CAT_zone'] = CAT_zone
             predictors['state_id'] = state_id
@@ -91,7 +97,7 @@ def main():
             st.metric('Conversion Rate', make_prediction(predictorsTrans, clf))
         else:
             st.info("Please submit the customer information", icon="👈")
-      
+     
 
 if __name__ == '__main__':
     main()
