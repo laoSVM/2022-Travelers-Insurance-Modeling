@@ -10,6 +10,7 @@ PAGE_CONFIG = {"page_title":"StColab.io","page_icon":":smiley:","layout":"wide"}
 st.set_page_config(**PAGE_CONFIG)
 benchmark_file = "benchmark_2.pkl"
 
+# cache the model
 @st.cache
 def get_model(benchmark_file):
     with open(benchmark_file, 'rb') as f:
@@ -24,15 +25,15 @@ def preprocess(df):
         df[cat_col] = df[cat_col].map(lbEncode[cat_col])
     return df
 
-def make_prediction(df: any, model: any) -> any:
+def make_prediction(df: any, model: any) -> float:
     return model.predict_proba(df)[:,1]
 
 clf, columns = get_model(benchmark_file)
 predictors = pd.DataFrame(np.zeros(len(columns)).reshape(1,-1), columns=columns)
 
 def main():
-    st.title("Streamlit App for 2022 Travelers")
-    # side panel
+    st.title("Streamlit App for 2022 Travelers") # main title
+    # side panel for user input
     with st.sidebar:
         st.subheader("Inputs")
         st.markdown("**Personal Information**")
@@ -63,7 +64,7 @@ def main():
         predictors['discount'] = st.checkbox("Discount applied")
 
         st.markdown("---")
-
+        # area for locational info such as state and cat_zone
         st.markdown("**Location Information**")
         predictors['state_id'] = st.selectbox(
             'Pick the state:',
@@ -80,18 +81,11 @@ def main():
     tab1, tab2, predictionTab = st.tabs(["Time Series", "Customer Group", "Prediction"])
     with predictionTab:
         if submitted:
-            # predictors['quoted_amt'] = quoted_amt
-            # predictors['total_number_veh'] = total_number_veh
-            # predictors['CAT_zone'] = CAT_zone
-            # predictors['state_id'] = state_id
-            # predictors['discount'] = int(discount)
-            # predictors['Prior_carrier_grp'] = Prior_carrier_grp
-            # predictors['drivers_age'] = drivers_age
-            # predictors['credit_score'] = credit_score
-
+            # show the df for test purpose
             st.dataframe(predictors)
             predictorsTrans = preprocess(predictors)
             st.dataframe(predictorsTrans)
+            # make prediction
             st.metric('Conversion Rate', make_prediction(predictorsTrans, clf))
         else:
             st.info("Please submit the customer information", icon="👈")
