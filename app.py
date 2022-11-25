@@ -114,16 +114,18 @@ def main():
 
         if tsQuest == tsQuests[0]:
             def reset_slider():
-                st.write(st.session_state['time_range'][0])
-                st.write(st.session_state['time_range'][1])
-                st.markdown('---')
+                st.session_state['time_range'][0] = date(2015,1,1)
+                st.session_state['time_range'][1] = date(2019,1,31)
+                # st.write(st.session_state['time_range'][0])
+                # st.write(st.session_state['time_range'][1])
+                # st.markdown('---')
             # if not specified: whole time series
-            start, end = st.slider(
+            st.slider(
                 "Pick a date range of interest:",
                 value=(date(2015,1,1), date(2019,1,31)),
                 key='time_range')
-            start = start.strftime('%Y%m%d')
-            end = end.strftime('%Y%m%d')
+            start = st.session_state['time_range'][0].strftime('%Y%m%d')
+            end = st.session_state['time_range'][1].strftime('%Y%m%d')
             # if specified time range: cal based on time range
             df = query_ts_data(resample='M', query=f'Quote_dt >={start} and Quote_dt <= {end}')
             fig = px.line(df, x=df.index, y='cov_rate',
