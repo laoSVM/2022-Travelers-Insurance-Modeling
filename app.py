@@ -83,32 +83,44 @@ def main():
     tsTab, tab2, predictionTab = st.tabs(["Time Series", "Customer Group", "Prediction"])
 
     with tsTab:
-        st.write('There is time series analysis')
+        # prepare data
+        df = get_ts_data()
+        ts_trend = df.set_index('Quote_dt')['convert_ind'].resample('Q').apply(['sum','count']).assign(cov_rate = lambda x: x['sum']/x['count'])
+        # plot bar chart
+        fig = px.bar(ts_trend, x=ts_trend.index, y='count',
+            color='cov_rate',
+            color_continuous_scale='ice',
+            labels={
+                'Quote_dt': 'Quote issued date',
+                'count': 'Num of quotes',
+                'cov_rate': 'Conversion'},
+            title='Quote Trends (by Quarter)'
+        )
+        fig.update_layout(
+            title={
+                'y':0.9,
+                'x':0.5,})
+        st.plotly_chart(fig)
+
+        # assumptions
         tsQuests = [
             'How does conversion rates change over the years?',
             'Does conversion rates have seasonality?',
-            'More questions'
+            'More analysis inprogress...'
         ]
         tsQuest = st.selectbox('Pick a topic here', tsQuests)
+
         if tsQuest == tsQuests[0]:
-            # prepare data
-            df = get_ts_data()
-            ts_trend = df.set_index('Quote_dt')['convert_ind'].resample('Q').apply(['sum','count']).assign(cov_rate = lambda x: x['sum']/x['count'])
-            # plot bar chart
-            fig = px.bar(ts_trend, x=ts_trend.index, y='count',
-                color='cov_rate',
-                color_continuous_scale='ice',
+            # if not specified: whole time series
+            # if specified time range: cal based on time range
+            df = query_ts_data(resample='M', query='')
+            fig = px.line(df, x=df.index, y='cov_rate',
                 labels={
                     'Quote_dt': 'Quote issued date',
-                    'count': 'Num of quotes',
-                    'cov_rate': 'Conversion'},
-                title='Quote Trends (by Quarter)'
-            )
-            fig.update_layout(
-                title={
-                    'y':0.9,
-                    'x':0.5,})
+                    'cov_rate': 'Conversion'
+                })
             st.plotly_chart(fig)
+        
         if tsQuest == tsQuests[1]:
             pass
         if tsQuest == tsQuests[2]:

@@ -33,3 +33,9 @@ def get_ts_data(train_test_split=True, get_holiday=False):
         df['holiday'] = df['Quote_dt'].apply(lambda x: 0 if holidays.US().get(x) is None else 1)
     df = df.groupby('policy_id', as_index= False).first()
     return df
+
+def query_ts_data(resample: str, query: str):
+    '''resample: specifies the resample rule; query: to slice df'''
+    df = get_ts_data().query()
+    query_df = df.set_index('Quote_dt')['convert_ind'].resample(resample).apply(['sum','count']).assign(cov_rate = lambda x: x['sum']/x['count'])
+    return query_df
