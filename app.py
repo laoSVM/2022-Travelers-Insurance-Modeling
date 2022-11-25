@@ -3,6 +3,7 @@ import os
 import streamlit as st
 import pandas as pd
 import numpy as np
+from datetime import datetime
 import lightgbm as lgb
 from dataPrep import *
 import plotly.express as px
@@ -109,10 +110,14 @@ def main():
             'Does conversion rates have seasonality?',
             'More analysis inprogress...'
         ]
-        tsQuest = st.selectbox('Pick a topic here', tsQuests)
+        tsQuest = st.selectbox('More detailed analysis', tsQuests)
 
         if tsQuest == tsQuests[0]:
             # if not specified: whole time series
+            appointment = st.slider(
+                "Schedule your appointment:",
+                value=(datetime(2015,1,1), datetime(2018,12,31)))
+            st.write("You're scheduled for:", appointment)
             # if specified time range: cal based on time range
             df = query_ts_data(resample='M', query='')
             fig = px.line(df, x=df.index, y='cov_rate',
