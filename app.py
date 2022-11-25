@@ -83,6 +83,7 @@ def main():
     tsTab, tab2, predictionTab = st.tabs(["Time Series", "Customer Group", "Prediction"])
 
     with tsTab:
+        st.info("We have observed a drop in the amount of quotes issued, as well as conversion rates.")
         # prepare data
         df = get_ts_data()
         ts_trend = df.set_index('Quote_dt')['convert_ind'].resample('Q').apply(['sum','count']).assign(cov_rate = lambda x: x['sum']/x['count'])
