@@ -114,10 +114,10 @@ def main():
 
         if tsQuest == tsQuests[0]:
             # if not specified: whole time series
-            appointment = st.slider(
+            start, end = st.slider(
                 "Schedule your appointment:",
                 value=(datetime(2015,1,1), datetime(2018,12,31)))
-            st.write("You're scheduled for:", appointment)
+            st.write(f"You're scheduled for: {str(start)} \t to {end}")
             # if specified time range: cal based on time range
             df = query_ts_data(resample='M', query='')
             fig = px.line(df, x=df.index, y='cov_rate',
