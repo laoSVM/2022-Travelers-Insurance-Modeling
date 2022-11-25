@@ -117,6 +117,8 @@ def main():
             start, end = st.slider(
                 "Schedule your appointment:",
                 value=(date(2015,1,1), date(2018,12,31)))
+            start = start.strftime('%Y%m%d')
+            end = end.strftime('%Y%m%d')
             st.write(f"You're scheduled for: {start} \t to {end}")
             # if specified time range: cal based on time range
             df = query_ts_data(resample='M', query=f'Quote_dt >={start} and Quote_dt <= {end}')
