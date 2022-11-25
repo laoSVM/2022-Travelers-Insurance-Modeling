@@ -25,7 +25,7 @@ def preprocess(df):
         df[cat_col] = df[cat_col].map(lbEncode[cat_col])
     return df
 
-def make_prediction(df: any, model: any) -> float:
+def make_prediction(df, model) -> float:
     return model.predict_proba(df)[:,1]
 
 clf, columns = get_model(benchmark_file)
@@ -74,11 +74,27 @@ def main():
             [1,2,3,4,5])
         submitted = st.button('Submit')
     
-  # main panel
+    # main panel
     with st.expander('About this app'):
         st.markdown('This app shows the **conversion probability** based on the information you provide.')
         st.write('😊Happy Coding.')
-    tab1, tab2, predictionTab = st.tabs(["Time Series", "Customer Group", "Prediction"])
+    tsTab, tab2, predictionTab = st.tabs(["Time Series", "Customer Group", "Prediction"])
+
+    with tsTab:
+        st.write('There is time series analysis')
+        tsQuests = [
+            'How does conversion rates change over the years?',
+            'Does conversion rates have seasonality?',
+            'More questions'
+        ]
+        tsQuest = st.selectbox('Pick a topic here', tsQuests)
+        if tsQuest == tsQuests[0]:
+            st.write(f'Here is the analysis of {tsQuests[0]}')
+        if tsQuest == tsQuests[1]:
+            pass
+        if tsQuest == tsQuests[2]:
+            pass
+
     with predictionTab:
         if submitted:
             # show the df for test purpose
