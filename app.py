@@ -3,7 +3,7 @@ import os
 import streamlit as st
 import pandas as pd
 import numpy as np
-from datetime import datetime
+from datetime import date
 import lightgbm as lgb
 from dataPrep import *
 import plotly.express as px
@@ -116,7 +116,7 @@ def main():
             # if not specified: whole time series
             start, end = st.slider(
                 "Schedule your appointment:",
-                value=(datetime(2015,1,1), datetime(2018,12,31)))
+                value=(date(2015,1,1), date(2018,12,31)))
             st.write(f"You're scheduled for: {start} \t to {end}")
             # if specified time range: cal based on time range
             df = query_ts_data(resample='M', query=f'Quote_dt >={start} and Quote_dt <= {end}')
