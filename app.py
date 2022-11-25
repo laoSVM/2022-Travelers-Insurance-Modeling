@@ -113,7 +113,9 @@ def main():
         tsQuest = st.selectbox('More detailed analysis', tsQuests)
 
         if tsQuest == tsQuests[0]:
-            
+            def reset_slider():
+                st.write(st.session_state['time_range'])
+                st.markdown('---')
             # if not specified: whole time series
             start, end = st.slider(
                 "Pick a date range of interest:",
@@ -129,8 +131,7 @@ def main():
                     'cov_rate': 'Conversion'
                 })
             st.plotly_chart(fig)
-            def reset_slider():
-                st.write(st.session_state['time_range'])
+            
             st.button('Reset', on_click=reset_slider)
         
         if tsQuest == tsQuests[1]:
