@@ -91,6 +91,9 @@ def main():
         tsQuest = st.selectbox('Pick a topic here', tsQuests)
         if tsQuest == tsQuests[0]:
             st.write(f'Here is the analysis of {tsQuests[0]}')
+            df = get_ts_data()
+            ts_trend = df.set_index('Quote_dt')['convert_ind'].resample('Q').apply(['sum','count']).assign(cov_rate = lambda x: x['sum']/x['count'])
+            st.dataframe(ts_trend)
         if tsQuest == tsQuests[1]:
             pass
         if tsQuest == tsQuests[2]:
