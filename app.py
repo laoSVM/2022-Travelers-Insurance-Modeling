@@ -5,6 +5,7 @@ import pandas as pd
 import numpy as np
 import lightgbm as lgb
 from dataPrep import *
+import plotly.express as px
 
 # st.set_option("browser.gatherUsageStats", False)
 PAGE_CONFIG = {"page_title":"StColab.io","page_icon":":smiley:","layout":"wide"}
@@ -90,10 +91,24 @@ def main():
         ]
         tsQuest = st.selectbox('Pick a topic here', tsQuests)
         if tsQuest == tsQuests[0]:
-            st.write(f'Here is the analysis of {tsQuests[0]}')
+            # prepare data
             df = get_ts_data()
             ts_trend = df.set_index('Quote_dt')['convert_ind'].resample('Q').apply(['sum','count']).assign(cov_rate = lambda x: x['sum']/x['count'])
-            st.dataframe(ts_trend)
+            # plot bar chart
+            fig = px.bar(ts_trend, x=ts_trend.index, y='count',
+                color='cov_rate',
+                color_continuous_scale='ice',
+                labels={
+                    'Quote_dt': 'Quote issued date',
+                    'count': 'Num of quotes',
+                    'cov_rate': 'Conversion'},
+                title='Quote Trends (by Quarter)'
+            )
+            fig.update_layout(
+                title={
+                    'y':0.9,
+                    'x':0.5,})
+            st.plotly_chart(fig)
         if tsQuest == tsQuests[1]:
             pass
         if tsQuest == tsQuests[2]:
