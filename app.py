@@ -122,6 +122,7 @@ def main():
             left, right = st.columns([1,4])
             with left:
                 df = query_ts_data(resample='M')
+                st.dataframe(df)
                 current_cov = df[lambda x: (
                     x.Quote_dt.year == end.year,
                     x.Quote_dt.month == end.month
