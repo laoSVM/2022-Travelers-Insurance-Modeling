@@ -135,7 +135,7 @@ def main():
                 )]
                 st.dataframe(current_cov)
                 st.dataframe(prev_cov)
-                st.metric('Conversion', f"{(current_cov['cov_rate']):.2%}", f"{(current_cov['cov_rate']-prev_cov['cov_rate']):.2%}")
+                st.metric('Conversion', f"{(current_cov[['cov_rate']]):.2%}", f"{(current_cov[['cov_rate']]-prev_cov[['cov_rate']]):.2%}")
                 st.metric('Num Quotes', current_cov['count'], f"{(current_cov['count']-prev_cov['count']):.2%}")
             with right:
                 start_f = start.strftime('%Y%m%d')
