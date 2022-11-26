@@ -118,7 +118,7 @@ def main():
             # start, end: datetime.date object
             start, end = st.slider(
                 "Pick a date range of interest:",
-                value=(date(2015,1,1), date(2019,1,1)),
+                value=(date(2015,1,1), date(2018,12,31)),
                 key='time_range')
             left, right = st.columns([1,4])
             with left:
@@ -135,8 +135,8 @@ def main():
                 )]
                 st.dataframe(current_cov)
                 st.dataframe(prev_cov)
-                # df_tail = df[-2:]
-                # st.metric('Conversion', f"{(df_tail['cov_rate'][-1]):.2%}", f"{(df_tail['cov_rate'][-1]-df_tail['cov_rate'][-2]):.2%}")
+                st.metric('Conversion', f"{(current_cov['cov_rate']):.2%}", f"{(current_cov['cov_rate']-prev_cov['cov_rate']):.2%}")
+                st.metric('Num Quotes', current_cov['count'], f"{(current_cov['count']-prev_cov['count']):.2%}")
             with right:
                 start_f = start.strftime('%Y%m%d')
                 end_f = end.strftime('%Y%m%d')
