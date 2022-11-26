@@ -7,6 +7,7 @@ from datetime import date
 import lightgbm as lgb
 from dataPrep import *
 import plotly.express as px
+from PIL import Image
 
 # st.set_option("browser.gatherUsageStats", False)
 PAGE_CONFIG = {"page_title":"StColab.io","page_icon":":smiley:","layout":"wide"}
@@ -113,7 +114,6 @@ def main():
         tsQuest = st.selectbox('More detailed analysis', tsQuests)
 
         if tsQuest == tsQuests[0]:
-
             # if not specified: whole time series
             start, end = st.slider(
                 "Pick a date range of interest:",
@@ -130,10 +130,11 @@ def main():
                 })
             st.plotly_chart(fig)
             
-
-        
         if tsQuest == tsQuests[1]:
-            pass
+            st.subheader("We do not observe apparent autocorrelation and seasonality with conversion rates.")
+            st.image(Image.open("./Image/partial correlation.png"))
+            st.image(Image.open("./Image/seasonal decompose.png"))
+
         if tsQuest == tsQuests[2]:
             pass
 
