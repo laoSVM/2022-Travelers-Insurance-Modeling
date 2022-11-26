@@ -119,16 +119,28 @@ def main():
                 "Pick a date range of interest:",
                 value=(date(2015,1,1), date(2019,1,31)),
                 key='time_range')
-            start = start.strftime('%Y%m%d')
-            end = end.strftime('%Y%m%d')
-            # if specified time range: cal based on time range
-            df = query_ts_data(resample='M', query=f'Quote_dt >={start} and Quote_dt <= {end}')
-            st.dataframe(df)
             left, right = st.columns([1,4])
             with left:
-                df_tail = df[-2:]
-                st.metric('Conversion', f"{(df_tail['cov_rate'][-1]):.2%}", f"{(df_tail['cov_rate'][-1]-df_tail['cov_rate'][-2]):.2%}")
+                df = query_ts_data(resample='M')
+                current_cov = df[lambda x: (
+                    x.Quote_dt.year == end.year,
+                    x.Quote_dt.month == end.month
+                )]
+                prev_month = current_cov - pd.DateOffset(month=1)
+                prev_cov = df[lambda x: (
+                    x.Quote_dt.year == prev_month.year,
+                    x.Quote_dt.month == prev_month.month
+                )]
+                st.dataframe(current_cov)
+                st.dataframe(prev_cov)
+                # df_tail = df[-2:]
+                # st.metric('Conversion', f"{(df_tail['cov_rate'][-1]):.2%}", f"{(df_tail['cov_rate'][-1]-df_tail['cov_rate'][-2]):.2%}")
             with right:
+                start_f = start.strftime('%Y%m%d')
+                end_f = end.strftime('%Y%m%d')
+                # if specified time range: cal based on time range
+                df = query_ts_data(resample='M', query=f'Quote_dt >={start_f} and Quote_dt <= {end_f}')
+                st.dataframe(df)
                 fig = px.line(df, x=df.index, y='cov_rate',
                     labels={
                         'Quote_dt': 'Quote issued date',
