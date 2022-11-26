@@ -124,12 +124,17 @@ def main():
             # if specified time range: cal based on time range
             df = query_ts_data(resample='M', query=f'Quote_dt >={start} and Quote_dt <= {end}')
             st.dataframe(df)
-            fig = px.line(df, x=df.index, y='cov_rate',
-                labels={
-                    'Quote_dt': 'Quote issued date',
-                    'cov_rate': 'Conversion'
-                })
-            st.plotly_chart(fig)
+            left, right = st.columns(2)
+            with left:
+                df_tail = df[-2:]
+                st.metric('Conversion',df_tail['cov_rate'][-1], df_tail['cov_rate'][-1]-df_tail['cov_rate'][-2])
+            with right:
+                fig = px.line(df, x=df.index, y='cov_rate',
+                    labels={
+                        'Quote_dt': 'Quote issued date',
+                        'cov_rate': 'Conversion'
+                    })
+                st.plotly_chart(fig)
             
         if tsQuest == tsQuests[1]:
             st.subheader("We do not observe apparent autocorrelation and seasonality with conversion rates.")
