@@ -133,10 +133,8 @@ def main():
                     (x.index.year == prev_month.year) &
                     (x.index.month == prev_month.month)
                 )]
-                st.dataframe(current_cov)
-                st.dataframe(prev_cov)
-                st.metric('Conversion', f"{(current_cov['cov_rate'].values[0]):.2%}", f"{(current_cov['cov_rate'].values[0] - prev_cov['cov_rate'].values[0]):.2%}")
-                st.metric('Num Quotes', current_cov['count'], f"{(current_cov['count'].values[0] - prev_cov['count'].values[0]):.2%}")
+                st.metric('Conversion', f"{(current_cov['cov_rate'].values[0]):.2%}", f"{( (current_cov['cov_rate'].values[0] - prev_cov['cov_rate'].values[0]) / prev_cov['cov_rate'].values[0]) :.2%}")
+                st.metric('Num Quotes', current_cov['count'], f"{( (current_cov['count'].values[0] - prev_cov['count'].values[0]) / prev_cov['count'].values[0]):.2%}")
             with right:
                 start_f = start.strftime('%Y%m%d')
                 end_f = end.strftime('%Y%m%d')
