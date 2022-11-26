@@ -124,7 +124,7 @@ def main():
             # if specified time range: cal based on time range
             df = query_ts_data(resample='M', query=f'Quote_dt >={start} and Quote_dt <= {end}')
             st.dataframe(df)
-            left, right = st.columns([1,3])
+            left, right = st.columns([1,4])
             with left:
                 df_tail = df[-2:]
                 st.metric('Conversion',df_tail['cov_rate'][-1], df_tail['cov_rate'][-1]-df_tail['cov_rate'][-2])
