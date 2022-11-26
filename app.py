@@ -127,7 +127,7 @@ def main():
             left, right = st.columns([1,4])
             with left:
                 df_tail = df[-2:]
-                st.metric('Conversion', f"{(df_tail['cov_rate'][-1]*100):.2%}", f"{(df_tail['cov_rate'][-1]-df_tail['cov_rate'][-2]):.2%}")
+                st.metric('Conversion', f"{(df_tail['cov_rate'][-1]):.2%}", f"{(df_tail['cov_rate'][-1]-df_tail['cov_rate'][-2]):.2%}")
             with right:
                 fig = px.line(df, x=df.index, y='cov_rate',
                     labels={
