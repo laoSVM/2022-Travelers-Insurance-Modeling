@@ -34,9 +34,9 @@ def get_ts_data(train_test_split=True, get_holiday=False):
     df = df.groupby('policy_id', as_index= False).first()
     return df
 
-def query_ts_data(query: str, resample='M'):
+def query_ts_data(resample='M', query=None):
     '''resample: specifies the resample rule; query: to slice df'''
-    if query:
+    if query is not None:
         df = get_ts_data().query(query)
     else:
         df = get_ts_data()
