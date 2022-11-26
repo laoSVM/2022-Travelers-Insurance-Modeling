@@ -117,20 +117,19 @@ def main():
             # if not specified: whole time series
             start, end = st.slider(
                 "Pick a date range of interest:",
-                value=(date(2015,1,1), date(2019,1,31)),
+                value=(pd.Timestamp(2015,1,1), pd.Timestamp(2019,1,31)),
                 key='time_range')
             left, right = st.columns([1,4])
             with left:
                 df = query_ts_data(resample='M')
-                st.dataframe(df)
                 current_cov = df[lambda x: (
-                    x.Quote_dt.year == end.year,
-                    x.Quote_dt.month == end.month
+                    (x.index.year == end.year) &
+                    (x.index.month == end.month)
                 )]
                 prev_month = end - pd.DateOffset(month=1)
                 prev_cov = df[lambda x: (
-                    x.Quote_dt.year == prev_month.year,
-                    x.Quote_dt.month == prev_month.month
+                    (x.index.year == prev_month.year) &
+                    (x.index.month == prev_month.month)
                 )]
                 st.dataframe(current_cov)
                 st.dataframe(prev_cov)
