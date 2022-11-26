@@ -115,13 +115,15 @@ def main():
 
         if tsQuest == tsQuests[0]:
             # if not specified: whole time series
+            # start, end: datetime.date object
             start, end = st.slider(
                 "Pick a date range of interest:",
-                value=(date(2015,1,1), date(2019,1,31)),
+                value=(date(2015,1,1), date(2019,1,1)),
                 key='time_range')
             left, right = st.columns([1,4])
             with left:
                 df = query_ts_data(resample='M')
+                st.dataframe(df)
                 current_cov = df[lambda x: (
                     (x.index.year == end.year) &
                     (x.index.month == end.month)
@@ -140,7 +142,6 @@ def main():
                 end_f = end.strftime('%Y%m%d')
                 # if specified time range: cal based on time range
                 df = query_ts_data(resample='M', query=f'Quote_dt >={start_f} and Quote_dt <= {end_f}')
-                st.dataframe(df)
                 fig = px.line(df, x=df.index, y='cov_rate',
                     labels={
                         'Quote_dt': 'Quote issued date',
