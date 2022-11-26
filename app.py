@@ -126,7 +126,7 @@ def main():
                     x.Quote_dt.year == end.year,
                     x.Quote_dt.month == end.month
                 )]
-                prev_month = current_cov - pd.DateOffset(month=1)
+                prev_month = end - pd.DateOffset(month=1)
                 prev_cov = df[lambda x: (
                     x.Quote_dt.year == prev_month.year,
                     x.Quote_dt.month == prev_month.month
