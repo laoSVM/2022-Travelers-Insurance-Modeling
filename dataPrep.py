@@ -82,6 +82,3 @@ def get_conversion_rate(df, variables=['var1','var2'], pivot=False):
         pivot = False
     return var_pivot if pivot else var_count
 
-# train,_ = load_df()
-# cnt_tab = get_conversion_rate(train, ['discount', 'Home_policy_ind'], pivot=True)
-# print(cnt_tab)

@@ -184,11 +184,15 @@ def main():
                         'num_owned_veh', 'num_leased_veh', 'total_number_veh', 'primary_parking']
             variables = st.multiselect(
                 'Select variables that interest you the most:',
-                var_list,
-                ['discount', 'Home_policy_ind'])
+                var_list, ['discount', 'Home_policy_ind'],
+                max_selections=2)
             train, _ = load_df()
-            cnt_tab = get_conversion_rate(train, [variables[0], variables[1]], pivot=True)
-            st.dataframe(cnt_tab)
+            if len(variables)==1:
+                cnt_tab = get_conversion_rate(train, [variables[0]], pivot=False)
+                st.dataframe(cnt_tab)
+            elif len(variables)==2:
+                cnt_tab = get_conversion_rate(train, [variables[0], variables[1]], pivot=True)
+                st.dataframe(cnt_tab)
 
     with salesTab:
         st.write("A few sales report.")
