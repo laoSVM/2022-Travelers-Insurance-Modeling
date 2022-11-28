@@ -194,6 +194,12 @@ def main():
             elif len(variables)==2:
                 cnt_tab = get_conversion_rate(train, [variables[0], variables[1]], pivot=True)
                 st.dataframe(cnt_tab)
+                fig = px.imshow(cnt_tab, color_continuous_scale='ice',
+                labels=dict(x=variables[1], y=variables[0], color="Conversion"),
+                x=cnt_tab.columns.tolist(),
+                y=cnt_tab.index.tolist())
+                fig.update_xaxes(side="top")
+                st.plotly_chart(fig)
                 chi2, p_value, _, _ = chi2_contingency(cnt_tab)
                 st.write(f"The p-value is {p_value}, which is {'significant' if p_value<0.05 else 'not significant'}")
 
