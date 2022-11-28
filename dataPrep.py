@@ -82,11 +82,6 @@ def get_conversion_rate(df, variables=['var1','var2'], pivot=False):
         pivot = False
     return var_pivot if pivot else var_count
 
-# agg_dict = {
-#                 'policy_id':'count',
-#                 'convert_ind':'first'
-#             }
-# train, _ = load_df()
-# family_size_df = train.groupby('policy_id', as_index= False).agg(agg_dict)[['policy_id','convert_ind']].rename(columns={'policy_id': 'family_size'})
-# fs_cov = get_conversion_rate(family_size_df, ['family_size'])
-# print(fs_cov)
+# train,_ = load_df()
+# cnt_tab = get_conversion_rate(train, ['discount', 'Home_policy_ind'], pivot=True)
+# print(cnt_tab)

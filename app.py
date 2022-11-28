@@ -186,7 +186,8 @@ def main():
                 'Select variables that interest you the most:',
                 var_list,
                 ['discount', 'Home_policy_ind'])
-            cnt_tab = get_conversion_rate(df, [variables[0], variables[1]], pivot=True)
+            train, _ = load_df()
+            cnt_tab = get_conversion_rate(train, [variables[0], variables[1]], pivot=True)
             st.dataframe(cnt_tab)
 
     with salesTab:
