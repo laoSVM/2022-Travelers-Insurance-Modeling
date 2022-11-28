@@ -159,7 +159,25 @@ def main():
             pass
 
     with customerTab:
-        pass
+        st.write("Some analysis about customers")
+        customerQuests = [
+            'How does family size affect conversion?',
+            'More analysis inprogress...'
+        ]
+        customerQuest = st.selectbox('More detailed analysis', customerQuests)
+
+        if customerQuest == customerQuests[0]:
+            agg_dict = {
+                'policy_id':'count',
+                'convert_ind':'first'
+            }
+            train, _ = load_df()
+            family_size_df = train.groupby('policy_id', as_index= False).agg(agg_dict).rename(columns={'policy_id': 'family_size'})[[agg_dict.keys()]]
+            fs_cov = get_conversion_rate(family_size_df, ['family_size'])
+            fig = px.bar(
+                fs_cov, x=['conversion_rate'], y='family_size',
+                orientation ='h')
+            st.plotly_chart(fig)
 
     with salesTab:
         st.write("A few sales report.")

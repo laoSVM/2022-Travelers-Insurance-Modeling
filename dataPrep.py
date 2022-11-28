@@ -59,4 +59,25 @@ def query_ts_data(resample='M', query=None):
     return query_df
 
 # Sales analysis data
-# print(get_policy_df())
+print(load_df()[0].groupby('policy_id', as_index= False).agg({'policy_id':'count', 'convert_ind':'first'}).rename(columns={'policy_id': 'family_size'})[['family_size','convert_ind']])
+
+# Utils
+def get_conversion_rate(df, variables=['var1','var2'], pivot=False):
+    # get num of convert and total num of policy
+    var_count = df.groupby(variables)['convert_ind'].aggregate(['sum', 'count']).reset_index()
+    # get conversion rate
+    var_count['conversion_rate'] = var_count['sum'] / var_count['count']
+    var_count = var_count.rename(columns={'sum':'num_converted','count':'total'})
+    # create pivot table
+    if (len(variables) != 1) & pivot:
+        var_pivot = var_count.pivot(
+            index=variables[0],
+            columns=variables[1],
+            values='conversion_rate'
+            ).fillna(0)
+    elif len(variables) == 1:
+        pivot = False
+        print('Only one variable passed')
+    else:
+        pivot = False
+    return var_pivot if pivot else var_count
