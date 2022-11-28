@@ -168,7 +168,6 @@ def main():
         salesQuest = st.selectbox('More detailed analysis', salesQuests)
 
         if salesQuest == salesQuests[0]:
-            pass
             policy = get_policy_df()
             discount_df = pd.merge(
                 policy[policy['convert_ind']==0].groupby(['discount'], as_index=False)['policy_id'].count().rename(columns={'policy_id': "Not converted"}),

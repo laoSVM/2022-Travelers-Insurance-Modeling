@@ -9,7 +9,10 @@ def df_type_trans(df):
     df['zip'] = df['zip'].astype('Int64').astype('object')
     df['Agent_cd'] = df['Agent_cd'].astype('Int64').astype('object')
     df['CAT_zone'] = df['CAT_zone'].astype('Int64')
-    df['high_education_ind'] = df['high_education_ind'].astype('Int64')
+    try:
+        df['high_education_ind'] = df['high_education_ind'].astype('Int64')
+    except:
+        None
     return df
 
 def load_df(train_test_split=True):
@@ -56,4 +59,4 @@ def query_ts_data(resample='M', query=None):
     return query_df
 
 # Sales analysis data
-# print(query_ts_data(query='discount=="No"'))
+# print(get_policy_df())
