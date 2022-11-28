@@ -183,7 +183,7 @@ def main():
             convert_control = discount_df.query('discount=="No"')['Converted'].values[0]
             convert_test = discount_df.query('discount=="Yes"')['Converted'].values[0]
             z_score, p_value = sp.proportions_ztest([convert_control, convert_test], [n_control, n_test], alternative='smaller')
-            left, right = st.columns([1,4])
+            left, right = st.columns([2,4])
             with left:
                 result = {
                     "Treatment": "Discount",
@@ -202,7 +202,7 @@ def main():
                     title='Sample Proportions',
                     legend_title="Discount")
                 st.plotly_chart(fig)
-            # Plot line charts of discount
+            # Plot line charts indicating conversion change
             discount_No = query_ts_data(resample='M', query='discount=="No"').reset_index(drop=False)
             discount_Yes = query_ts_data(resample='M', query='discount=="Yes"').reset_index(drop=False)
             fig = go.Figure()
