@@ -1,7 +1,7 @@
 import numpy as np
 import pandas as pd
 import os
-data_dir = ''
+data_dir = './Data'
 
 # Base data
 def df_type_trans(df):
@@ -27,9 +27,14 @@ def load_df(train_test_split=True):
     ) if train_test_split else df
 
 def get_policy_df():
-    train, test = load_df(train_test_split=True)
-    policy = train.groupby('policy_id', as_index= False).first()
-    return policy
+    policy = pd.read_csv(os.path.join(data_dir, 'policies.csv'))
+    policy = df_type_trans(policy)
+    policy = policy.assign(
+        dayofweek = lambda x: x.Quote_dt.dt.dayofweek,
+        month = lambda x: x.Quote_dt.dt.month,
+        quarter = lambda x: x.Quote_dt.dt.quarter
+    )
+    return policy[lambda x: x.split == 'Train'].drop(['split'], 1)
 
 # Time series data
 def get_ts_data(train_test_split=True, get_holiday=False):

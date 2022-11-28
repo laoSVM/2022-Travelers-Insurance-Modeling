@@ -8,6 +8,8 @@ import lightgbm as lgb
 from dataPrep import *
 import plotly.express as px
 from PIL import Image
+import statsmodels.stats.proportion as sp
+
 
 # st.set_option("browser.gatherUsageStats", False)
 PAGE_CONFIG = {"page_title":"StColab.io","page_icon":":smiley:","layout":"wide"}
@@ -165,14 +167,30 @@ def main():
         ]
         salesQuest = st.selectbox('More detailed analysis', salesQuests)
 
-        if tsQuest == salesQuests[0]:
+        if salesQuest == salesQuests[0]:
             pass
             policy = get_policy_df()
             discount_df = pd.merge(
                 policy[policy['convert_ind']==0].groupby(['discount'], as_index=False)['policy_id'].count().rename(columns={'policy_id': "Not converted"}),
                 policy[policy['convert_ind']==1].groupby(['discount'], as_index=False)['policy_id'].count().rename(columns={'policy_id': "Converted"}),
                 on='discount'
-            )
+            ).assign(sample_size = lambda x: x.sum(1))
+
+            n_control = discount_df.sum(1)[0]
+            n_test = discount_df.sum(1)[1]
+            convert_control = discount_df.query('discount=="No"')['Converted'].values[0]
+            convert_test = discount_df.query('discount=="Yes"')['Converted'].values[0]
+
+            z_score, p_value = sp.proportions_ztest([convert_control, convert_test], [n_control, n_test], alternative='smaller')
+            result = {
+                "Treatment": "Discount",
+                "Control Group Size": n_control,
+                "Treatment Group Size": n_test,
+                "Control Group KPI": convert_control,
+                "Treatment Group KPI": convert_test,
+                "p-value": p_value
+            }
+            st.dataframe(pd.DataFrame(result, index=['Result']).T)
 
 
     with predictionTab:
