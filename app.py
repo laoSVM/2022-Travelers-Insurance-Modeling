@@ -11,6 +11,7 @@ import plotly.figure_factory as ff
 import plotly.graph_objects as go
 from PIL import Image
 import statsmodels.stats.proportion as sp
+from scipy.stats import chi2_contingency
 
 
 # st.set_option("browser.gatherUsageStats", False)
@@ -193,6 +194,8 @@ def main():
             elif len(variables)==2:
                 cnt_tab = get_conversion_rate(train, [variables[0], variables[1]], pivot=True)
                 st.dataframe(cnt_tab)
+                chi2, p_value, _, _ = chi2_contingency(cnt_tab)
+                st.write(f"The p-value is {p_value}, which is {'significant' if p_value<0.05 else 'not significant'}")
 
     with salesTab:
         st.write("A few sales report.")
