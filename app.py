@@ -7,6 +7,8 @@ from datetime import date
 import lightgbm as lgb
 from dataPrep import *
 import plotly.express as px
+import plotly.figure_factory as ff
+import plotly.graph_objects as go
 from PIL import Image
 import statsmodels.stats.proportion as sp
 
@@ -168,29 +170,54 @@ def main():
         salesQuest = st.selectbox('More detailed analysis', salesQuests)
 
         if salesQuest == salesQuests[0]:
+            # Prepare data for hypothesis testing
             policy = get_policy_df()
             discount_df = pd.merge(
                 policy[policy['convert_ind']==0].groupby(['discount'], as_index=False)['policy_id'].count().rename(columns={'policy_id': "Not converted"}),
                 policy[policy['convert_ind']==1].groupby(['discount'], as_index=False)['policy_id'].count().rename(columns={'policy_id': "Converted"}),
                 on='discount'
             ).assign(sample_size = lambda x: x.sum(1))
-
+            # Prepare experiment
             n_control = discount_df.sum(1)[0]
             n_test = discount_df.sum(1)[1]
             convert_control = discount_df.query('discount=="No"')['Converted'].values[0]
             convert_test = discount_df.query('discount=="Yes"')['Converted'].values[0]
-
             z_score, p_value = sp.proportions_ztest([convert_control, convert_test], [n_control, n_test], alternative='smaller')
-            result = {
-                "Treatment": "Discount",
-                "Control Group Size": n_control,
-                "Treatment Group Size": n_test,
-                "Control Group KPI": convert_control,
-                "Treatment Group KPI": convert_test,
-                "p-value": p_value
-            }
-            st.dataframe(pd.DataFrame(result, index=['Result']).T)
-
+            left, right = st.columns([1,4])
+            with left:
+                result = {
+                    "Treatment": "Discount",
+                    "Control Group Size": n_control,
+                    "Treatment Group Size": n_test,
+                    "Control Group KPI": convert_control,
+                    "Treatment Group KPI": convert_test,
+                    "p-value": round(p_value, 4)
+                }
+                st.dataframe(pd.DataFrame(result, index=['Result']).T)
+            with right:
+                fig = px.pie(discount_df,
+                            values='sample_size', names='discount')
+                fig.update_traces(textposition='inside', textinfo='percent+label')
+                fig.update_layout(
+                    title='Sample Proportions',
+                    legend_title="Discount"
+                )
+                fig.show()
+            # Plot line charts of discount
+            discount_No = query_ts_data(resample='M', query='discount=="No"')
+            discount_Yes = query_ts_data(resample='M', query='discount=="Yes"')
+            fig = go.Figure()
+            fig.add_trace(go.Scatter(x=discount_No["Quote_dt"], y=discount_No["cov_rate"],
+                                mode='lines', name='No'))
+            fig.add_trace(go.Scatter(x=discount_Yes["Quote_dt"], y=discount_Yes["cov_rate"],
+                                mode='lines', name='Yes'))
+            fig.update_layout(
+                title='Discount & Conversion Rate',
+                xaxis_title='Time',
+                yaxis_title='Conversion Rate',
+                legend_title="Discount"
+            )
+            fig.show()
 
     with predictionTab:
         if submitted:
