@@ -204,8 +204,8 @@ def main():
                 )
                 fig.show()
             # Plot line charts of discount
-            discount_No = query_ts_data(resample='M', query='discount=="No"')
-            discount_Yes = query_ts_data(resample='M', query='discount=="Yes"')
+            discount_No = query_ts_data(resample='M', query='discount=="No"').reset_index(drop=False)
+            discount_Yes = query_ts_data(resample='M', query='discount=="Yes"').reset_index(drop=False)
             fig = go.Figure()
             fig.add_trace(go.Scatter(x=discount_No["Quote_dt"], y=discount_No["cov_rate"],
                                 mode='lines', name='No'))
