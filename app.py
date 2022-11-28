@@ -181,6 +181,7 @@ def main():
                 discount_df, x=['Not converted', 'Converted'], y='discount',
                 orientation ='h')
             st.plotly_chart(fig)
+            st.markdown("---")
             # Prepare experiment
             n_control = discount_df.sum(1)[0]
             n_test = discount_df.sum(1)[1]
