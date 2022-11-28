@@ -189,8 +189,8 @@ def main():
                     "Treatment": "Discount",
                     "Control Group Size": n_control,
                     "Treatment Group Size": n_test,
-                    "Control Group KPI": convert_control,
-                    "Treatment Group KPI": convert_test,
+                    "Control Group Convert": convert_control,
+                    "Treatment Group Convert": convert_test,
                     "p-value": round(p_value, 4)
                 }
                 st.dataframe(pd.DataFrame(result, index=['Result']).T)
@@ -200,9 +200,8 @@ def main():
                 fig.update_traces(textposition='inside', textinfo='percent+label')
                 fig.update_layout(
                     title='Sample Proportions',
-                    legend_title="Discount"
-                )
-                fig.show()
+                    legend_title="Discount")
+                st.plotly_chart(fig)
             # Plot line charts of discount
             discount_No = query_ts_data(resample='M', query='discount=="No"').reset_index(drop=False)
             discount_Yes = query_ts_data(resample='M', query='discount=="Yes"').reset_index(drop=False)
@@ -215,9 +214,8 @@ def main():
                 title='Discount & Conversion Rate',
                 xaxis_title='Time',
                 yaxis_title='Conversion Rate',
-                legend_title="Discount"
-            )
-            fig.show()
+                legend_title="Discount")
+            st.plotly_chart(fig)
 
     with predictionTab:
         if submitted:
