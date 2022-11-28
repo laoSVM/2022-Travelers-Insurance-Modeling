@@ -172,7 +172,7 @@ def main():
                 'convert_ind':'first'
             }
             train, _ = load_df()
-            family_size_df = train.groupby('policy_id', as_index= False).agg(agg_dict).rename(columns={'policy_id': 'family_size'})[[agg_dict.keys()]]
+            family_size_df = train.groupby('policy_id', as_index= False).agg(agg_dict)[['policy_id','convert_ind']].rename(columns={'policy_id': 'family_size'})
             fs_cov = get_conversion_rate(family_size_df, ['family_size'])
             fig = px.bar(
                 fs_cov, x=['conversion_rate'], y='family_size',

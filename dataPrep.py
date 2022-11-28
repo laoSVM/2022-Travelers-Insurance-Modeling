@@ -59,7 +59,7 @@ def query_ts_data(resample='M', query=None):
     return query_df
 
 # Sales analysis data
-print(load_df()[0].groupby('policy_id', as_index= False).agg({'policy_id':'count', 'convert_ind':'first'}).rename(columns={'policy_id': 'family_size'})[['family_size','convert_ind']])
+# print(load_df()[0].groupby('policy_id', as_index= False).agg({'policy_id':'count', 'convert_ind':'first'}).rename(columns={'policy_id': 'family_size'})[['family_size','convert_ind']])
 
 # Utils
 def get_conversion_rate(df, variables=['var1','var2'], pivot=False):
@@ -81,3 +81,12 @@ def get_conversion_rate(df, variables=['var1','var2'], pivot=False):
     else:
         pivot = False
     return var_pivot if pivot else var_count
+
+# agg_dict = {
+#                 'policy_id':'count',
+#                 'convert_ind':'first'
+#             }
+# train, _ = load_df()
+# family_size_df = train.groupby('policy_id', as_index= False).agg(agg_dict)[['policy_id','convert_ind']].rename(columns={'policy_id': 'family_size'})
+# fs_cov = get_conversion_rate(family_size_df, ['family_size'])
+# print(fs_cov)
