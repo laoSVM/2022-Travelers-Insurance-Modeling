@@ -202,7 +202,7 @@ def main():
                 st.plotly_chart(fig)
                 # perform chi2 test
                 chi2, p_value, _, _ = chi2_contingency(cnt_tab)
-                st.subheader(f"The p-value is {p_value}, which is {'significant' if p_value<0.05 else 'not significant'}")
+                st.subheader(f"The p-value is {round(p_value, 4)}, which is {'significant' if p_value<0.05 else 'not significant'}")
 
     with salesTab:
         st.write("A few sales report.")
