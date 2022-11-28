@@ -82,7 +82,7 @@ def main():
     with st.expander('About this app'):
         st.markdown('This app shows the **conversion probability** based on the information you provide.')
         st.write('😊Happy Coding.')
-    tsTab, tab2, predictionTab = st.tabs(["Time Series", "Customer Group", "Prediction"])
+    tsTab, customerTab, salesTab, predictionTab = st.tabs(["Time Series", "Customer Group", "Marketing & Sales", "Prediction"])
 
     with tsTab:
         st.info("We have observed a drop in the amount of quotes issued, as well as conversion rates.")
@@ -153,6 +153,27 @@ def main():
 
         if tsQuest == tsQuests[2]:
             pass
+
+    with customerTab:
+        pass
+
+    with salesTab:
+        st.write("A few sales report.")
+        salesQuests = [
+            'Does providing discount increase conversion? -- A/B Test',
+            'More analysis inprogress...'
+        ]
+        salesQuest = st.selectbox('More detailed analysis', salesQuests)
+
+        if tsQuest == salesQuests[0]:
+            pass
+            policy = get_policy_df()
+            discount_df = pd.merge(
+                policy[policy['convert_ind']==0].groupby(['discount'], as_index=False)['policy_id'].count().rename(columns={'policy_id': "Not converted"}),
+                policy[policy['convert_ind']==1].groupby(['discount'], as_index=False)['policy_id'].count().rename(columns={'policy_id': "Converted"}),
+                on='discount'
+            )
+
 
     with predictionTab:
         if submitted:

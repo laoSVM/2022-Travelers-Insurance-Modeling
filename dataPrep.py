@@ -3,6 +3,7 @@ import pandas as pd
 import os
 data_dir = ''
 
+# Base data
 def df_type_trans(df):
     df['Quote_dt'] = pd.to_datetime(df['Quote_dt'], format = '%Y-%m-%d')
     df['zip'] = df['zip'].astype('Int64').astype('object')
@@ -25,6 +26,12 @@ def load_df(train_test_split=True):
         df[lambda x: x.split == 'Test'].drop(['split'], 1)
     ) if train_test_split else df
 
+def get_policy_df():
+    train, test = load_df(train_test_split=True)
+    policy = train.groupby('policy_id', as_index= False).first()
+    return policy
+
+# Time series data
 def get_ts_data(train_test_split=True, get_holiday=False):
     # do not use test data in time series analysis
     df,_ = load_df(train_test_split=train_test_split)
@@ -42,3 +49,6 @@ def query_ts_data(resample='M', query=None):
         df = get_ts_data()
     query_df = df.set_index('Quote_dt')['convert_ind'].resample(resample).apply(['sum','count']).assign(cov_rate = lambda x: x['sum']/x['count'])
     return query_df
+
+# Sales analysis data
+# print(query_ts_data(query='discount=="No"'))

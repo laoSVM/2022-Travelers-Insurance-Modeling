@@ -5,9 +5,11 @@ import pandas as pd
 import numpy as np
 import lightgbm as lgb
 
+
 # st.set_option("browser.gatherUsageStats", False)
 PAGE_CONFIG = {"page_title":"StColab.io","page_icon":":smiley:","layout":"wide"}
 st.set_page_config(**PAGE_CONFIG)
+
 
 @st.cache
 def get_model(benchmark_file):
