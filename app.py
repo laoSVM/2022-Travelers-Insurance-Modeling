@@ -162,6 +162,7 @@ def main():
         st.write("Some analysis about customers")
         customerQuests = [
             'How does family size affect conversion?',
+            'Are conversion rates different among groups?',
             'More analysis inprogress...'
         ]
         customerQuest = st.selectbox('More detailed analysis', customerQuests)
@@ -169,15 +170,24 @@ def main():
         if customerQuest == customerQuests[0]:
             agg_dict = {
                 'policy_id':'count',
-                'convert_ind':'first'
-            }
+                'convert_ind':'first'}
             train, _ = load_df()
-            family_size_df = train.groupby('policy_id', as_index= False).agg(agg_dict)[['policy_id','convert_ind']].rename(columns={'policy_id': 'family_size'})
+            family_size_df = train.groupby('policy_id', as_index=False).agg(agg_dict)[['policy_id','convert_ind']].rename(columns={'policy_id': 'family_size'})
             fs_cov = get_conversion_rate(family_size_df, ['family_size'])
             fig = px.bar(
                 fs_cov, x=['conversion_rate'], y='family_size',
                 orientation ='h')
             st.plotly_chart(fig)
+        if customerQuest == customerQuests[1]:
+            var_list = ['discount', 'Home_policy_ind', 'state_id', 'Prior_carrier_grp', 
+                        'Cov_package_type', 'CAT_zone', 'number_drivers', 'num_loaned_veh', 
+                        'num_owned_veh', 'num_leased_veh', 'total_number_veh', 'primary_parking']
+            variables = st.multiselect(
+                'Select variables that interest you the most:',
+                var_list,
+                ['discount', 'Home_policy_ind'])
+            cnt_tab = get_conversion_rate(df, [variables[0], variables[1]], pivot=True)
+            st.dataframe(cnt_tab)
 
     with salesTab:
         st.write("A few sales report.")

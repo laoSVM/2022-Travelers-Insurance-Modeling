@@ -59,7 +59,7 @@ def query_ts_data(resample='M', query=None):
     return query_df
 
 # Sales analysis data
-# print(load_df()[0].groupby('policy_id', as_index= False).agg({'policy_id':'count', 'convert_ind':'first'}).rename(columns={'policy_id': 'family_size'})[['family_size','convert_ind']])
+
 
 # Utils
 def get_conversion_rate(df, variables=['var1','var2'], pivot=False):
