@@ -177,6 +177,10 @@ def main():
                 policy[policy['convert_ind']==1].groupby(['discount'], as_index=False)['policy_id'].count().rename(columns={'policy_id': "Converted"}),
                 on='discount'
             ).assign(sample_size = lambda x: x.sum(1))
+            fig = px.bar(
+                discount_df, x=['Not converted', 'Converted'], y='discount',
+                orientation ='h')
+            st.plotly_chart(fig)
             # Prepare experiment
             n_control = discount_df.sum(1)[0]
             n_test = discount_df.sum(1)[1]
@@ -196,7 +200,7 @@ def main():
                     "p-value": round(p_value, 4)
                 }
                 st.dataframe(pd.DataFrame(result, index=['Result']).T)
-                st.markdown("According to the result, p-value<0.05. Therefore we reject the null hypothesis. **Giving discounts** to customers does **have a positive effect** in conversion.")
+                st.markdown("According to the result, **p-value<0.05**. Therefore we reject the null hypothesis. **Giving discounts to customers does have a positive effect** in conversion.")
             with right:
                 fig = px.pie(discount_df,
                             values='sample_size', names='discount')
