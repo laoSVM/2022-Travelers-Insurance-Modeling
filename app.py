@@ -185,7 +185,7 @@ def main():
                         'num_owned_veh', 'num_leased_veh', 'total_number_veh', 'primary_parking']
             variables = st.multiselect(
                 'Select variables that interest you the most:',
-                var_list, ['discount', 'Home_policy_ind'],
+                var_list, ['discount', 'Cov_package_type'],
                 max_selections=2)
             train, _ = load_df()
             if len(variables)==1:
@@ -193,15 +193,16 @@ def main():
                 st.dataframe(cnt_tab)
             elif len(variables)==2:
                 cnt_tab = get_conversion_rate(train, [variables[0], variables[1]], pivot=True)
-                st.dataframe(cnt_tab)
-                fig = px.imshow(cnt_tab, color_continuous_scale='ice',
+                # render a heatmap showing conversion table
+                fig = px.imshow(cnt_tab, color_continuous_scale='ice', text_auto=True,
                 labels=dict(x=variables[1], y=variables[0], color="Conversion"),
                 x=cnt_tab.columns.tolist(),
                 y=cnt_tab.index.tolist())
                 fig.update_xaxes(side="top")
                 st.plotly_chart(fig)
+                # perform chi2 test
                 chi2, p_value, _, _ = chi2_contingency(cnt_tab)
-                st.write(f"The p-value is {p_value}, which is {'significant' if p_value<0.05 else 'not significant'}")
+                st.subheader(f"The p-value is {p_value}, which is {'significant' if p_value<0.05 else 'not significant'}")
 
     with salesTab:
         st.write("A few sales report.")
