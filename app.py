@@ -180,6 +180,8 @@ def main():
             fig = px.bar(
                 discount_df, x=['Not converted', 'Converted'], y='discount',
                 orientation ='h')
+            fig.update_layout(
+                xaxis_title='Freq')
             st.plotly_chart(fig)
             st.markdown("---")
             # Prepare experiment
