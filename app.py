@@ -192,7 +192,10 @@ def main():
             if len(variables)==1:
                 cnt_tab = get_conversion_rate(train, [variables[0]], pivot=False)
                 st.dataframe(cnt_tab)
-                fig = px.bar(cnt_tab, x=variables[0], y='conversion_rate')
+                fig = px.bar(
+                    cnt_tab, x=["total", "num_converted"], y=variables[0], orientation ='h',
+                    labels={"conversion_rate": "Conversion Rate"},
+                    hover_data=['conversion_rate'])
                 st.plotly_chart(fig)
             elif len(variables)==2:
                 cnt_tab = pd.crosstab(cov_train[variables[0]], cov_train[variables[1]])
