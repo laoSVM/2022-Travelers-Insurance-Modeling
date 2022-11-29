@@ -213,13 +213,14 @@ def main():
     with salesTab:
         st.write("A few sales report.")
         # Revenue Map Component
+        revenue_df, counties = get_revenue_df()
+        st.metric("Revenue", revenue_df.revenue.sum())
         granularity = st.radio(
             label="",
             options=["States", "Counties"],
             label_visibility='collapsed',
             horizontal=True,
         )
-        revenue_df, counties = get_revenue_df()
         if granularity == "States":
             fig = px.choropleth(
                 locations=revenue_df.state_id.tolist(), 
@@ -227,6 +228,7 @@ def main():
                 color=revenue_df.revenue.tolist(),
                 color_continuous_scale='ice')
             fig.update_geos(fitbounds="locations", visible=True)
+            fig.update_layout(margin={"r":0,"t":0,"l":0,"b":0})
             st.plotly_chart(fig)
         if granularity == "Counties":
             fig = px.choropleth(
