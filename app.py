@@ -212,6 +212,31 @@ def main():
 
     with salesTab:
         st.write("A few sales report.")
+        # Revenue Map Component
+        granularity = st.radio(
+            label="",
+            options=["States", "Counties"],
+            label_visibility='collapsed',
+            horizontal=True,
+        )
+        revenue_df, counties = get_revenue_df()
+        if granularity == "States":
+            fig = px.choropleth(
+                locations=revenue_df.state_id.tolist(), 
+                locationmode="USA-states", scope="usa",
+                color=revenue_df.revenue.tolist(),
+                color_continuous_scale='ice')
+            fig.update_geos(fitbounds="locations", visible=True)
+            st.plotly_chart(fig)
+        if granularity == "Counties":
+            fig = px.choropleth(
+                revenue_df, geojson=counties, locations='fips', 
+                color='revenue', color_continuous_scale="ice",
+                hover_data=['state_id','county_name'],
+                scope="usa")
+            fig.update_layout(margin={"r":0,"t":0,"l":0,"b":0})
+            st.plotly_chart(fig)
+        # More detailed analysis
         salesQuests = [
             'Does providing discount increase conversion? -- A/B Test',
             'More analysis inprogress...'

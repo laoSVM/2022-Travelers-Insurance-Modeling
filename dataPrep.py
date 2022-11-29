@@ -1,6 +1,9 @@
 import numpy as np
 import pandas as pd
 import os
+from urllib.request import urlopen
+import json
+
 data_dir = './Data'
 
 # Base data
@@ -31,6 +34,7 @@ def load_df(train_test_split=True):
 
 def get_policy_df():
     policy = pd.read_csv(os.path.join(data_dir, 'policies.csv'))
+    policy['quoted_amt'] = policy.quoted_amt.str.replace(r'\D+', '', regex=True).astype('float')
     policy = df_type_trans(policy)
     policy = policy.assign(
         dayofweek = lambda x: x.Quote_dt.dt.dayofweek,
@@ -59,6 +63,26 @@ def query_ts_data(resample='M', query=None):
     return query_df
 
 # Sales analysis data
+def get_revenue_df():
+    policy = get_policy_df()
+    # get geojson data
+    with urlopen('https://raw.githubusercontent.com/plotly/datasets/master/geojson-counties-fips.json') as response:
+        counties = json.load(response)
+    # county_fips = {"county_name": "fips_id"}
+    county_fips = {}
+    for i, geoinfo in enumerate(counties["features"]):
+        county_fips[geoinfo['properties']['NAME']] = geoinfo['id']
+    revenue_df = pd.merge(
+        policy.groupby('county_name', as_index=False).first()[['state_id','county_name']],
+        policy.assign(
+            revenue = lambda x: x['quoted_amt']*x['convert_ind']
+            ).groupby('county_name', as_index=False).sum().assign(
+                fips = lambda x: x['county_name'].map(county_fips)
+                )[['county_name', 'fips', 'revenue']],
+        on='county_name'
+        )
+    return revenue_df, counties
+
 
 
 # Utils
@@ -81,6 +105,3 @@ def get_conversion_rate(df, variables=['var1','var2'], pivot=False):
     else:
         pivot = False
     return var_pivot if pivot else var_count
-
-train,_ = load_df()
-print(get_conversion_rate(train, ['discount'], pivot=False))
