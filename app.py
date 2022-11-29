@@ -208,7 +208,7 @@ def main():
                 st.plotly_chart(fig)
                 # perform chi2 test
                 chi2, p_value, _, _ = chi2_contingency(cnt_tab)
-                st.subheader(f"The p-value is {round(p_value, 4)}, which is {'significant' if p_value<0.05 else 'not significant'}")
+                st.info(f"We performed Chi-squared test on the two variables. The p-value is {round(p_value, 4)}, which means {'there is significant difference among the groups.' if p_value<0.05 else 'there is not significant difference among the groups.'}")
 
     with salesTab:
         st.write("A few sales report.")
