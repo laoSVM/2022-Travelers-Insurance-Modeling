@@ -241,8 +241,7 @@ def main():
             z_score, p_value = sp.proportions_ztest([convert_control, convert_test], [n_control, n_test], alternative='smaller')
             left, right = st.columns([2,4])
             with left:
-                st.latex(r"H_0: P_{No}=P_{Yes}")
-                st.latex(r"H_1: P_{No}<P_{Yes}")
+                st.subheader("A/B Test")
                 result = {
                     "Treatment": "Discount",
                     "Control Group Size": n_control,
@@ -252,6 +251,7 @@ def main():
                     "p-value": round(p_value, 4)
                 }
                 st.dataframe(pd.DataFrame(result, index=['Result']).T)
+                st.markdown(r"Our null hypothesis is $H_0: P_{No}=P_{Yes}$.")
                 st.markdown("According to the result, **p-value<0.05**. Therefore we reject the null hypothesis. **Giving discounts to customers does have a positive effect** in conversion.")
             with right:
                 fig = px.pie(discount_df,
