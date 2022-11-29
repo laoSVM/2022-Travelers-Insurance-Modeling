@@ -64,6 +64,7 @@ def query_ts_data(resample='M', query=None):
 
 # Sales analysis data
 def get_revenue_df():
+    '''returns the revenue_df and counties geojson file for county based map plot'''
     policy = get_policy_df()
     # get geojson data
     with urlopen('https://raw.githubusercontent.com/plotly/datasets/master/geojson-counties-fips.json') as response:
@@ -82,7 +83,6 @@ def get_revenue_df():
         on='county_name'
         )
     return revenue_df, counties
-
 
 
 # Utils
