@@ -188,14 +188,17 @@ def main():
                 var_list, ['discount', 'Cov_package_type'],
                 max_selections=2)
             train, _ = load_df()
+            cov_train = train.query('convert_ind==1')
             if len(variables)==1:
                 cnt_tab = get_conversion_rate(train, [variables[0]], pivot=False)
                 st.dataframe(cnt_tab)
+                fig = px.bar(cnt_tab, x=variables[0], y='conversion_rate')
+                st.plotly_chart(fig)
             elif len(variables)==2:
-                cnt_tab = get_conversion_rate(train, [variables[0], variables[1]], pivot=True)
+                cnt_tab = pd.crosstab(cov_train[variables[0]], cov_train[variables[1]])
                 # render a heatmap showing conversion table
                 fig = px.imshow(cnt_tab, color_continuous_scale='ice', text_auto=True,
-                labels=dict(x=variables[1], y=variables[0], color="Conversion"),
+                labels=dict(x=variables[1], y=variables[0], color="Convert"),
                 x=cnt_tab.columns.tolist(),
                 y=cnt_tab.index.tolist())
                 fig.update_xaxes(side="top")
