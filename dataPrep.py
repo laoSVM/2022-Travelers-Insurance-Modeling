@@ -28,8 +28,8 @@ def load_df(train_test_split=True):
         quarter = lambda x: x.Quote_dt.dt.quarter
     )
     return (
-        df[lambda x: x.split == 'Train'].drop(['split'], 1),
-        df[lambda x: x.split == 'Test'].drop(['split'], 1)
+        df[lambda x: x.split == 'Train'].drop(['split'], axis=1),
+        df[lambda x: x.split == 'Test'].drop(['split'], axis=1)
     ) if train_test_split else df
 
 def get_policy_df():
@@ -41,7 +41,7 @@ def get_policy_df():
         month = lambda x: x.Quote_dt.dt.month,
         quarter = lambda x: x.Quote_dt.dt.quarter
     )
-    return policy[lambda x: x.split == 'Train'].drop(['split'], 1)
+    return policy[lambda x: x.split == 'Train'].drop(['split'], axis=1)
 
 # Time series data
 def get_ts_data(train_test_split=True, get_holiday=False):
