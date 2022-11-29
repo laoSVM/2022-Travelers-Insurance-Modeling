@@ -214,7 +214,7 @@ def main():
         st.write("A few sales report.")
         # Revenue Map Component
         revenue_df, counties = get_revenue_df()
-        st.metric("Revenue", f'{revenue_df.revenue.sum():,.2f}')
+        st.metric("Revenue", f'${revenue_df.revenue.sum():,}')
         granularity = st.radio(
             label="",
             options=["States", "Counties"],
