@@ -128,6 +128,7 @@ def main():
             left, right = st.columns([1,4])
             with left:
                 df = query_ts_data(resample='M')
+                # get the conversion rates from the month where the end point of the slider lies
                 current_cov = df[lambda x: (
                     (x.index.year == end.year) &
                     (x.index.month == end.month)

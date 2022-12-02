@@ -19,6 +19,7 @@ def df_type_trans(df):
     return df
 
 def load_df(train_test_split=True):
+    """join policy and driver dataset, each record represents a driver on the policy"""
     df = pd.read_csv(os.path.join(data_dir, 'analytical_df.csv'))
     df = df_type_trans(df)  # fix dtypes
     # create time based features
