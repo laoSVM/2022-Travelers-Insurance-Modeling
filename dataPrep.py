@@ -105,3 +105,6 @@ def get_conversion_rate(df, variables=['var1','var2'], pivot=False):
     else:
         pivot = False
     return var_pivot if pivot else var_count
+
+## Testing
+# print(get_revenue_df()[0])

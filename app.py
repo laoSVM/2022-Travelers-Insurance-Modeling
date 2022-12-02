@@ -222,10 +222,11 @@ def main():
             horizontal=True,
         )
         if granularity == "States":
+            states_revenue = revenue_df.groupby('state_id', as_index=False).sum()[['state_id', 'revenue']]
             fig = px.choropleth(
-                locations=revenue_df.state_id.tolist(), 
+                locations=states_revenue.state_id.tolist(), 
                 locationmode="USA-states", scope="usa",
-                color=revenue_df.revenue.tolist(),
+                color=states_revenue.revenue.tolist(),
                 color_continuous_scale='ice')
             fig.update_geos(fitbounds="locations", visible=True)
             fig.update_layout(margin={"r":0,"t":0,"l":0,"b":0})
