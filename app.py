@@ -226,8 +226,7 @@ def main():
             )[['Agent_cd', 'revenue']].groupby('Agent_cd', as_index=False).agg({'revenue': 'sum'})  # sum up revenue per agent
             # agent_df['Agent_cd'] = agent_df['Agent_cd'].apply(str)  # change the type of agent id into string (e.g. 32759856)
             agent_df = agent_df.sort_values('revenue', ascending=False)
-            container = st.container()
-            n = container.slider(
+            n = st.slider(
                 'Top N Agent', 2, 10, 5,
                 label_visibility='collapsed', help="Top N Agent")
             fig = px.bar(
@@ -244,7 +243,7 @@ def main():
                 paper_bgcolor='rgba(0, 0, 0, 0)', # remove bg in figure area 
             )
             fig.update_traces(width=0.5)
-            container.plotly_chart(fig)
+            st.plotly_chart(fig)
         with right:
             granularity = st.radio(
                 label="",
