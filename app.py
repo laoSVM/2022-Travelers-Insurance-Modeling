@@ -171,6 +171,7 @@ def main():
         if tsQuest == tsQuests[2]:
             policy = get_policy_df()
             states_customer = policy.set_index('Quote_dt').groupby([pd.Grouper(freq='M'), 'state_id'])['convert_ind'].agg(['sum', 'count']).reset_index(drop=False)
+            st.info("**NY, FL, NJ** are the main markets compared with other states. Starting from the beginning of 2017, the quotes from NY, FL, NJ droped seriously. Other states also experienced a small drop.")
             fig = px.line(
                 states_customer, x='Quote_dt', y='count', color='state_id',
                 labels={
