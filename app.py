@@ -213,34 +213,55 @@ def main():
                 st.info(f"We performed Chi-squared test on the two variables. The p-value is {round(p_value, 4)}, which means {'there is significant difference among the groups.' if p_value<0.05 else 'there is not significant difference among the groups.'}")
 
     with salesTab:
-        st.write("A few sales report.")
         # Revenue Map Component
         revenue_df, counties = get_revenue_df()
         st.metric("Revenue", f'${revenue_df.revenue.sum():,}')
-        granularity = st.radio(
-            label="",
-            options=["States", "Counties"],
-            label_visibility='collapsed',
-            horizontal=True,
-        )
-        if granularity == "States":
-            states_revenue = revenue_df.groupby('state_id', as_index=False).sum()[['state_id', 'revenue']]
-            fig = px.choropleth(
-                locations=states_revenue.state_id.tolist(), 
-                locationmode="USA-states", scope="usa",
-                color=states_revenue.revenue.tolist(),
-                color_continuous_scale='ice')
-            fig.update_geos(fitbounds="locations", visible=True)
-            fig.update_layout(margin={"r":0,"t":0,"l":0,"b":0})
+
+        left, right = st.columns([2,4])
+        with left:
+            # Data prep
+            policy = get_policy_df()
+            agent_df = policy.assign(
+                revenue=lambda x: x['quoted_amt']*x['convert_ind']  # calculate revenue per policy
+            )[['Agent_cd', 'revenue']].groupby('Agent_cd', as_index=False).agg({'revenue': 'sum'})  # sum up revenue per agent
+            agent_df['Agent_cd'] = agent_df['Agent_cd'].apply(str)  # change the type of agent id into string (e.g. 32759856)
+            agent_df = agent_df.sort_values('revenue', ascending=False)
+            n = st.slider('Top N Agent', 2, 10, 5)
+            fig = px.bar(
+                agent_df.head(n), x='revenue', y='Agent_cd',
+                orientation ='h', color_discrete_sequence=['#B4A582']*n)
+            fig.update_layout(
+                yaxis=dict(autorange="reversed"),
+                bargap=0.5,
+                plot_bgcolor='rgba(0, 0, 0, 0)', # remove bg in plot area
+                paper_bgcolor='rgba(0, 0, 0, 0)', # remove bg in figure area 
+            )
             st.plotly_chart(fig)
-        if granularity == "Counties":
-            fig = px.choropleth(
-                revenue_df, geojson=counties, locations='fips', 
-                color='revenue', color_continuous_scale="ice",
-                hover_data=['state_id','county_name'],
-                scope="usa")
-            fig.update_layout(margin={"r":0,"t":0,"l":0,"b":0})
-            st.plotly_chart(fig)
+        with right:
+            granularity = st.radio(
+                label="",
+                options=["States", "Counties"],
+                label_visibility='collapsed',
+                horizontal=True,
+            )
+            if granularity == "States":
+                states_revenue = revenue_df.groupby('state_id', as_index=False).sum()[['state_id', 'revenue']]
+                fig = px.choropleth(
+                    locations=states_revenue.state_id.tolist(), 
+                    locationmode="USA-states", scope="usa",
+                    color=states_revenue.revenue.tolist(),
+                    color_continuous_scale='ice')
+                fig.update_geos(fitbounds="locations", visible=True)
+                fig.update_layout(margin={"r":0,"t":0,"l":0,"b":0})
+                st.plotly_chart(fig)
+            if granularity == "Counties":
+                fig = px.choropleth(
+                    revenue_df, geojson=counties, locations='fips', 
+                    color='revenue', color_continuous_scale="ice",
+                    hover_data=['state_id','county_name'],
+                    scope="usa")
+                fig.update_layout(margin={"r":0,"t":0,"l":0,"b":0})
+                st.plotly_chart(fig)
         # More detailed analysis
         salesQuests = [
             'Does providing discount increase conversion? -- A/B Test',
