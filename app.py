@@ -169,10 +169,16 @@ def main():
             st.image(Image.open("./Image/seasonal decompose.png"))
 
         if tsQuest == tsQuests[2]:
-            st.write("Hello World")
             policy = get_policy_df()
             states_customer = policy.set_index('Quote_dt').groupby([pd.Grouper(freq='M'), 'state_id'])['convert_ind'].agg(['sum', 'count']).reset_index(drop=False)
-            st.dataframe(states_customer)
+            fig = px.line(
+                states_customer, x='Quote_dt', y='count', color='state_id',
+                labels={
+                    'Quote_dt': 'Quote issued date',
+                    'count': 'Num of quotes'
+                }
+            )
+            st.plotly_chart(fig)
 
         if tsQuest == tsQuests[3]:
             pass
