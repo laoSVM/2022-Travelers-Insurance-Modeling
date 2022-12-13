@@ -231,9 +231,9 @@ def main():
                 'Top N Agent', 2, 10, 5,
                 label_visibility='collapsed', help="Top N Agent")
             fig = px.bar(
-                agent_df.head(n), x='Agent_cd', y='Agent_cd',
+                agent_df.head(n), x='Agent_cd', y='revenue',
                 color_discrete_sequence=['#B4A582']*n)
-            # fig.update_xaxes(type='category')
+            fig.update_xaxes(type='category')
             fig.update_layout(
                 xaxis=dict(autorange="reversed"),
                 width=500,
