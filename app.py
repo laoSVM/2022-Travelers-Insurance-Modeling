@@ -232,7 +232,7 @@ def main():
                 color_discrete_sequence=['#B4A582']*n)
             fig.update_xaxes(type='category')
             fig.update_layout(
-                yaxis=dict(autorange="reversed"),
+                xaxis=dict(autorange="reversed"),
                 bargap=0.5,
                 plot_bgcolor='rgba(0, 0, 0, 0)', # remove bg in plot area
                 paper_bgcolor='rgba(0, 0, 0, 0)', # remove bg in figure area 
