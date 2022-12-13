@@ -236,7 +236,7 @@ def main():
             fig.update_xaxes(type='category')
             fig.update_layout(
                 # xaxis=dict(autorange="reversed"),
-                width=500,
+                width=400,
                 bargap=0.5,
                 plot_bgcolor='rgba(0, 0, 0, 0)', # remove bg in plot area
                 paper_bgcolor='rgba(0, 0, 0, 0)', # remove bg in figure area 
