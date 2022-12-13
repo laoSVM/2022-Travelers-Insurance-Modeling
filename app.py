@@ -141,9 +141,9 @@ def main():
                 prev_month = pd.to_datetime(end) - pd.DateOffset(month=1)
                 two_month_before = pd.to_datetime(end) - pd.DateOffset(month=2)
                 current_record = get_ts_data().loc[lambda x: (x.Quote_dt<=pd.to_datetime(end)) & (x.Quote_dt>=prev_month), ['convert_ind']]
-                current_cov = pd.DataFrame([np.sum(current_record), current_record.size], columns=['sum','count']).assign(cov_rate = lambda x: x['sum']/x['count'])
+                current_cov = pd.DataFrame({'sum': np.sum(current_record), 'count': current_record.size}).assign(cov_rate = lambda x: x['sum']/x['count'])
                 prev_record = get_ts_data().loc[lambda x: (x.Quote_dt<=prev_month) & (x.Quote_dt>=two_month_before), ['convert_ind']]
-                prev_cov = pd.DataFrame([np.sum(prev_record), prev_record.size], columns=['sum','count']).assign(cov_rate = lambda x: x['sum']/x['count'])
+                prev_cov = pd.DataFrame({'sum': np.sum(prev_record), 'count': prev_record.size}).assign(cov_rate = lambda x: x['sum']/x['count'])
 
                 st.metric('Conversion', f"{(current_cov['cov_rate'].values[0]):.2%}", f"{( (current_cov['cov_rate'].values[0] - prev_cov['cov_rate'].values[0]) / prev_cov['cov_rate'].values[0]) :.2%}")
                 st.metric('Num Quotes', current_cov['count'], f"{( (current_cov['count'].values[0] - prev_cov['count'].values[0]) / prev_cov['count'].values[0]):.2%}")
