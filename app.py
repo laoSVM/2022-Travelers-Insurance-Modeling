@@ -140,7 +140,7 @@ def main():
                 # )]
                 prev_month = pd.to_datetime(end) - pd.DateOffset(month=1)
                 two_month_before = pd.to_datetime(end) - pd.DateOffset(month=2)
-                current_record = get_ts_data().loc[lambda x: (x.Quote_dt<=end) & (x.Quote_dt>=prev_month), ['convert_ind']]
+                current_record = get_ts_data().loc[lambda x: (x.Quote_dt<=pd.to_datetime(end)) & (x.Quote_dt>=prev_month), ['convert_ind']]
                 current_cov = pd.DataFrame([np.sum(current_record), current_record.size], columns=['sum','count']).assign(cov_rate = lambda x: x['sum']/x['count'])
                 prev_record = get_ts_data().loc[lambda x: (x.Quote_dt<=prev_month) & (x.Quote_dt>=two_month_before), ['convert_ind']]
                 prev_cov = pd.DataFrame([np.sum(prev_record), prev_record.size], columns=['sum','count']).assign(cov_rate = lambda x: x['sum']/x['count'])
