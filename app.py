@@ -188,7 +188,7 @@ def main():
             pass
 
     with customerTab:
-        st.write("Some analysis about customers")
+        st.info("Here is customer analysis.")
         customerQuests = [
             'How does family size affect conversion?',
             'Are conversion rates different among groups?',
