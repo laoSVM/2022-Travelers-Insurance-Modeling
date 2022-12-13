@@ -224,13 +224,13 @@ def main():
             agent_df = policy.assign(
                 revenue=lambda x: x['quoted_amt']*x['convert_ind']  # calculate revenue per policy
             )[['Agent_cd', 'revenue']].groupby('Agent_cd', as_index=False).agg({'revenue': 'sum'})  # sum up revenue per agent
-            agent_df['Agent_cd'] = agent_df['Agent_cd'].apply(str)  # change the type of agent id into string (e.g. 32759856)
+            # agent_df['Agent_cd'] = agent_df['Agent_cd'].apply(str)  # change the type of agent id into string (e.g. 32759856)
             agent_df = agent_df.sort_values('revenue', ascending=False)
             n = st.slider('Top N Agent', 2, 10, 5)
             fig = px.bar(
-                agent_df.head(n), x='revenue', y='Agent_cd',
-                orientation ='h', color_discrete_sequence=['#B4A582']*n)
-            fig.update_yaxes(type='category')
+                agent_df.head(n), x='Agent_cd', y='Agent_cd',
+                color_discrete_sequence=['#B4A582']*n)
+            fig.update_xaxes(type='category')
             fig.update_layout(
                 yaxis=dict(autorange="reversed"),
                 bargap=0.5,
