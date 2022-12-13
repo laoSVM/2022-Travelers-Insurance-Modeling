@@ -233,7 +233,7 @@ def main():
             fig = px.bar(
                 agent_df.head(n), x='Agent_cd', y='revenue',
                 color_discrete_sequence=['#6E75A4']*n)
-            fig.update_xaxes(type='category')
+            fig.update_xaxes(type='category', tickangle=45)
             fig.update_layout(
                 # xaxis=dict(autorange="reversed"),
                 yaxis_title=None,
@@ -243,7 +243,7 @@ def main():
                 plot_bgcolor='rgba(0, 0, 0, 0)', # remove bg in plot area
                 paper_bgcolor='rgba(0, 0, 0, 0)', # remove bg in figure area 
             )
-            fig.update_traces(width=0.5, texttemplate='%{text:.2s}', textposition='outside')
+            fig.update_traces(width=0.5, texttemplate='%{text/1000:.2}K', textposition='outside')
             container.plotly_chart(fig)
         with right:
             granularity = st.radio(
