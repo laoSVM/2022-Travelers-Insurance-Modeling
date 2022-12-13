@@ -238,6 +238,7 @@ def main():
                 # xaxis=dict(autorange="reversed"),
                 width=400,
                 bargap=0.5,
+                margin={"r":20,"t":0,"l":0,"b":0},
                 plot_bgcolor='rgba(0, 0, 0, 0)', # remove bg in plot area
                 paper_bgcolor='rgba(0, 0, 0, 0)', # remove bg in figure area 
             )
