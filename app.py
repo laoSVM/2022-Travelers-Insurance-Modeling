@@ -243,7 +243,7 @@ def main():
                 plot_bgcolor='rgba(0, 0, 0, 0)', # remove bg in plot area
                 paper_bgcolor='rgba(0, 0, 0, 0)', # remove bg in figure area 
             )
-            fig.update_traces(width=0.5, texttemplate='%{text/1000:.2}K', textposition='outside')
+            fig.update_traces(width=0.5)
             container.plotly_chart(fig)
         with right:
             granularity = st.radio(
