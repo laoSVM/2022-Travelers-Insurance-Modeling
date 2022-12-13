@@ -232,10 +232,10 @@ def main():
                 label_visibility='collapsed', help="Top N Agent")
             fig = px.bar(
                 agent_df.head(n), x='Agent_cd', y='revenue',
-                color_discrete_sequence=['#B4A582']*n)
+                color_discrete_sequence=['#6E75A4']*n)
             fig.update_xaxes(type='category')
             fig.update_layout(
-                xaxis=dict(autorange="reversed"),
+                # xaxis=dict(autorange="reversed"),
                 width=500,
                 bargap=0.5,
                 plot_bgcolor='rgba(0, 0, 0, 0)', # remove bg in plot area
