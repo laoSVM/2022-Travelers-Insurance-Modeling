@@ -233,7 +233,7 @@ def main():
             fig = px.bar(
                 agent_df.head(n), x='Agent_cd', y='Agent_cd',
                 color_discrete_sequence=['#B4A582']*n)
-            fig.update_xaxes(type='category')
+            # fig.update_xaxes(type='category')
             fig.update_layout(
                 xaxis=dict(autorange="reversed"),
                 width=500,
