@@ -292,6 +292,7 @@ def main():
                 policy[policy['convert_ind']==1].groupby(['discount'], as_index=False)['policy_id'].count().rename(columns={'policy_id': "Converted"}),
                 on='discount'
             ).assign(sample_size = lambda x: x.sum(1))
+            st.markdown("From the bar plot, we could see the number of converted customer is higher for no discounts. However, it does not represent the overall conversion rate. **We'll perform A/B test to examine the relationship between conversion and discount**.")
             fig = px.bar(
                 discount_df, x=['Not converted', 'Converted'], y='discount',
                 orientation ='h')
