@@ -234,11 +234,11 @@ def main():
             fig.update_layout(
                 xaxis=dict(autorange="reversed"),
                 width=500,
-                # bargap=0.5,
+                bargap=0.5,
                 plot_bgcolor='rgba(0, 0, 0, 0)', # remove bg in plot area
                 paper_bgcolor='rgba(0, 0, 0, 0)', # remove bg in figure area 
             )
-            fig.update_traces(width=1)
+            fig.update_traces(width=0.3)
             st.plotly_chart(fig)
         with right:
             granularity = st.radio(
