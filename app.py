@@ -233,10 +233,12 @@ def main():
             fig.update_xaxes(type='category')
             fig.update_layout(
                 xaxis=dict(autorange="reversed"),
-                bargap=0.5,
+                width=500,
+                # bargap=0.5,
                 plot_bgcolor='rgba(0, 0, 0, 0)', # remove bg in plot area
                 paper_bgcolor='rgba(0, 0, 0, 0)', # remove bg in figure area 
             )
+            fig.update_traces(width=1)
             st.plotly_chart(fig)
         with right:
             granularity = st.radio(
