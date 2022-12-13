@@ -17,6 +17,14 @@ from scipy.stats import chi2_contingency
 # st.set_option("browser.gatherUsageStats", False)
 PAGE_CONFIG = {"page_title":"StColab.io","page_icon":":smiley:","layout":"wide"}
 st.set_page_config(**PAGE_CONFIG)
+hide_st_style = """
+<style>
+MainMenu {visibility: hidden;}
+footer {visibility: hidden;}
+header {visibility: hidden;}
+</style>
+"""
+st.markdown(hide_st_style, unsafe_allow_html=True)
 benchmark_file = "benchmark_2.pkl"
 
 # cache the model
