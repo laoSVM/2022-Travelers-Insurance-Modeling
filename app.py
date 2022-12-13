@@ -169,6 +169,7 @@ def main():
             st.image(Image.open("./Image/seasonal decompose.png"))
 
         if tsQuest == tsQuests[2]:
+            st.write("Hello World")
             policy = get_policy_df()
             states_customer = policy.set_index('Quote_dt').groupby([pd.Grouper(freq='M'), 'state_id'])['convert_ind'].agg(['sum', 'count']).reset_index(drop=False)
             st.dataframe(states_customer)
