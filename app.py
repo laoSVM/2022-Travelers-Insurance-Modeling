@@ -94,7 +94,7 @@ def main():
     # main panel
     with st.expander('About this app'):
         st.markdown("""
-        This app is an analytical dashboard built with streamlit. It has four main topics: time series analysis, customer analysis, marketing analysis, conversion model.  
+        This app is an analytical dashboard built with streamlit. It has four main topics: time series analysis, customer analysis, marketing analysis, and **quote conversion model**.  
         The conversion model is trained on lightGBM. It shows the **conversion probability** based on the information you provide.
         """)
         st.write('😊Happy Coding.')
