@@ -120,13 +120,15 @@ def main():
 
         # assumptions
         tsQuests = [
-            'How does conversion rates change over the years?',
-            'Does conversion rates have seasonality?',
+            'How does conversion rate change over the years?',
+            'Does conversion rate have seasonality?',
+            'Market share comparison across multiple areas.',
             'More analysis inprogress...'
         ]
         tsQuest = st.selectbox('More detailed analysis', tsQuests)
 
         if tsQuest == tsQuests[0]:
+            st.info("In general, conversion rate follows a steady drop over the years. It fluctuates and reached its bottom around mid 2017.")
             # if not specified: whole time series
             # start, end: datetime.date object
             start, end = st.slider(
@@ -167,6 +169,8 @@ def main():
             st.image(Image.open("./Image/seasonal decompose.png"))
 
         if tsQuest == tsQuests[2]:
+            pass
+        if tsQuest == tsQuests[3]:
             pass
 
     with customerTab:
