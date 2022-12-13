@@ -127,24 +127,18 @@ def main():
                 key='time_range')
             left, right = st.columns([1,4])
             with left:
-                # df = query_ts_data(resample='M')
-                # # get the conversion rates from the month where the end point of the slider lies
-                # current_cov = df[lambda x: (
-                #     (x.index.year == end.year) &
-                #     (x.index.month == end.month)
-                # )]
-                # prev_month = pd.to_datetime(end) - pd.DateOffset(month=1)
-                # prev_cov = df[lambda x: (
-                #     (x.index.year == prev_month.year) &
-                #     (x.index.month == prev_month.month)
-                # )]
-                prev_month = pd.Timestamp(end) - pd.DateOffset(month=1)
-                two_month_before = pd.Timestamp(end) - pd.DateOffset(month=2)
-                current_record = get_ts_data().loc[lambda x: (x.Quote_dt<=pd.to_datetime(end)) & (x.Quote_dt>=prev_month), ['convert_ind']]
-                current_cov = pd.DataFrame({'sum': np.sum(current_record), 'count': current_record.size}).assign(cov_rate = lambda x: x['sum']/x['count'])
-                prev_record = get_ts_data().loc[lambda x: (x.Quote_dt<=prev_month) & (x.Quote_dt>=two_month_before), ['convert_ind']]
-                prev_cov = pd.DataFrame({'sum': np.sum(prev_record), 'count': prev_record.size}).assign(cov_rate = lambda x: x['sum']/x['count'])
-                st.write(current_cov, prev_cov, end, prev_month, two_month_before)
+                df = query_ts_data(resample='M')
+                # get the conversion rates from the month where the end point of the slider lies
+                current_cov = df[lambda x: (
+                    (x.index.year == end.year) &
+                    (x.index.month == end.month)
+                )]
+                prev_month = pd.to_datetime(end) - pd.DateOffset(month=1)
+                prev_cov = df[lambda x: (
+                    (x.index.year == prev_month.year) &
+                    (x.index.month == prev_month.month)
+                )]
+
                 st.metric('Conversion', f"{(current_cov['cov_rate'].values[0]):.2%}", f"{( (current_cov['cov_rate'].values[0] - prev_cov['cov_rate'].values[0]) / prev_cov['cov_rate'].values[0]) :.2%}")
                 st.metric('Num Quotes', current_cov['count'], f"{( (current_cov['count'].values[0] - prev_cov['count'].values[0]) / prev_cov['count'].values[0]):.2%}")
             with right:
