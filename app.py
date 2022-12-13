@@ -93,7 +93,10 @@ def main():
     
     # main panel
     with st.expander('About this app'):
-        st.markdown('This app shows the **conversion probability** based on the information you provide.')
+        st.markdown("""
+        This app is an analytical dashboard built with streamlit. It has four main topics: time series analysis, customer analysis, marketing analysis, conversion model.  
+        The conversion model is trained on lightGBM. It shows the **conversion probability** based on the information you provide.
+        """)
         st.write('😊Happy Coding.')
     tsTab, customerTab, salesTab, predictionTab = st.tabs(["Time Series", "Customer Group", "Marketing & Sales", "Prediction"])
 
