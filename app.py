@@ -234,11 +234,12 @@ def main():
                 agent_df.head(n), x='Agent_cd', y='revenue',
                 color_discrete_sequence=['#6E75A4']*n)
             fig.update_xaxes(type='category')
+            fig.update_yaxes(showticklabels=False)
             fig.update_layout(
                 # xaxis=dict(autorange="reversed"),
                 width=350,
                 bargap=0.5,
-                margin={"t":20,"l":20},
+                margin={"t":0,"l":20},
                 plot_bgcolor='rgba(0, 0, 0, 0)', # remove bg in plot area
                 paper_bgcolor='rgba(0, 0, 0, 0)', # remove bg in figure area 
             )
