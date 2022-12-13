@@ -108,4 +108,6 @@ def get_conversion_rate(df, variables=['var1','var2'], pivot=False):
     return var_pivot if pivot else var_count
 
 ## Testing
-# print(get_revenue_df()[0])
+print(
+    (get_ts_data().loc[lambda x: (x.Quote_dt<="2017-06-30") & (x.Quote_dt>="2017-06-01"), ['convert_ind']])
+)

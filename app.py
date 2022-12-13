@@ -41,10 +41,10 @@ clf, columns = get_model(benchmark_file)
 predictors = pd.DataFrame(np.zeros(len(columns)).reshape(1,-1), columns=columns)
 
 def main():
-    st.title("Streamlit App for 2022 Travelers") # main title
+    st.title("Auto Quote Conversion Dashboard") # main title
     # side panel for user input
     with st.sidebar:
-        st.subheader("Inputs")
+        st.subheader("User Inputs")
         st.markdown("**Personal Information**")
         predictors['quoted_amt'] = st.number_input(
             "Quoted Amt:",
@@ -127,17 +127,24 @@ def main():
                 key='time_range')
             left, right = st.columns([1,4])
             with left:
-                df = query_ts_data(resample='M')
-                # get the conversion rates from the month where the end point of the slider lies
-                current_cov = df[lambda x: (
-                    (x.index.year == end.year) &
-                    (x.index.month == end.month)
-                )]
+                # df = query_ts_data(resample='M')
+                # # get the conversion rates from the month where the end point of the slider lies
+                # current_cov = df[lambda x: (
+                #     (x.index.year == end.year) &
+                #     (x.index.month == end.month)
+                # )]
+                # prev_month = pd.to_datetime(end) - pd.DateOffset(month=1)
+                # prev_cov = df[lambda x: (
+                #     (x.index.year == prev_month.year) &
+                #     (x.index.month == prev_month.month)
+                # )]
                 prev_month = pd.to_datetime(end) - pd.DateOffset(month=1)
-                prev_cov = df[lambda x: (
-                    (x.index.year == prev_month.year) &
-                    (x.index.month == prev_month.month)
-                )]
+                two_month_before = pd.to_datetime(end) - pd.DateOffset(month=2)
+                current_record = get_ts_data().loc[lambda x: (x.Quote_dt<=end) & (x.Quote_dt>=prev_month), ['convert_ind']]
+                current_cov = pd.DataFrame([np.sum(current_record), current_record.size], columns=['sum','count']).assign(cov_rate = lambda x: x['sum']/x['count'])
+                prev_record = get_ts_data().loc[lambda x: (x.Quote_dt<=prev_month) & (x.Quote_dt>=two_month_before), ['convert_ind']]
+                prev_cov = pd.DataFrame([np.sum(prev_record), prev_record.size], columns=['sum','count']).assign(cov_rate = lambda x: x['sum']/x['count'])
+
                 st.metric('Conversion', f"{(current_cov['cov_rate'].values[0]):.2%}", f"{( (current_cov['cov_rate'].values[0] - prev_cov['cov_rate'].values[0]) / prev_cov['cov_rate'].values[0]) :.2%}")
                 st.metric('Num Quotes', current_cov['count'], f"{( (current_cov['count'].values[0] - prev_cov['count'].values[0]) / prev_cov['count'].values[0]):.2%}")
             with right:
@@ -280,7 +287,7 @@ def main():
                     "p-value": round(p_value, 4)
                 }
                 st.dataframe(pd.DataFrame(result, index=['Result']).T)
-                st.markdown(r"Our null hypothesis is $H_0: P_{No}=P_{Yes}$.")
+                st.markdown(r"Our null hypothesis is $H_0: P_{No}=P_{Yes}$")
                 st.markdown("According to the result, **p-value<0.05**. Therefore we reject the null hypothesis. **Giving discounts to customers does have a positive effect** in conversion.")
             with right:
                 fig = px.pie(discount_df,
@@ -308,9 +315,9 @@ def main():
     with predictionTab:
         if submitted:
             # show the df for test purpose
-            st.dataframe(predictors)
+            # st.dataframe(predictors)
             predictorsTrans = preprocess(predictors)
-            st.dataframe(predictorsTrans)
+            # st.dataframe(predictorsTrans)
             # make prediction
             st.metric('Conversion Rate', make_prediction(predictorsTrans, clf))
         else:
