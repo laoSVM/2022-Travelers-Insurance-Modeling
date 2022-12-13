@@ -234,7 +234,7 @@ def main():
                 agent_df.head(n), x='Agent_cd', y='revenue',
                 color_discrete_sequence=['#6E75A4']*n)
             fig.update_xaxes(type='category')
-            fig.update_yaxes(showticklabels=False)
+            fig.update_yaxes(visible=False, showticklabels=False)
             fig.update_layout(
                 # xaxis=dict(autorange="reversed"),
                 width=350,
