@@ -230,6 +230,7 @@ def main():
             fig = px.bar(
                 agent_df.head(n), x='revenue', y='Agent_cd',
                 orientation ='h', color_discrete_sequence=['#B4A582']*n)
+            fig.update_yaxes(type='category')
             fig.update_layout(
                 yaxis=dict(autorange="reversed"),
                 bargap=0.5,
