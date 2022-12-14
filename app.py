@@ -200,15 +200,15 @@ def main():
         """)
         csProf[2].write("""
         :man-boy:**Single Parent**  
-        There's only one adult on the policy, wheather divorced or one of the parents doesn't know how to drive.
+        One adult on the policy, with children.
         """)
         csProf[3].write("""
         :running:**Single Adult**  
-        S/He is not married and has only one person on the policy.
+        S/He is on the policy and is single.
         """)
         csProf[4].write("""
         :girl:**Dependent Child**  
-        We have a few children who are on their own policy.
+        Teenagers typically under 20 who are on their own policy.
         """)
         customerQuests = [
             'How does family size affect conversion?',
