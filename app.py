@@ -189,21 +189,25 @@ def main():
 
     with customerTab:
         st.info("We have identified four types of customers.")
-        csProf = st.columns(4)
+        csProf = st.columns(5)
         csProf[0].write("""
-        **Couple**  
+        :man-woman-girl-girl:**Family**  
         A typical family with parents and children.
         """)
         csProf[1].write("""
-        **Single Parent**  
-        There's only one adult on the policy, wheather divorced or one of the parents doesn't know how to drive.
+        :man-heart-man:**Couple**  
+        A couple without children.
         """)
         csProf[2].write("""
-        **Single Adult**:running:  
-        S/He is not married and has only one person on the policy.
+        :man-boy:**Single Parent**  
+        There's only one adult on the policy, wheather divorced or one of the parents doesn't know how to drive.
         """)
         csProf[3].write("""
-        **Dependent Child**  
+        :running:**Single Adult**  
+        S/He is not married and has only one person on the policy.
+        """)
+        csProf[4].write("""
+        :girl:**Dependent Child**  
         We have a few children who are on their own policy.
         """)
         customerQuests = [
