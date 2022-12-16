@@ -416,7 +416,18 @@ def main():
             predictorsTrans = preprocess(predictors)
             # st.dataframe(predictorsTrans)
             # make prediction
-            st.metric('Conversion Rate', make_prediction(predictorsTrans, clf))
+            convert_prob = make_prediction(predictorsTrans, clf)
+            st.metric('Conversion Rate', convert_prob)
+            if convert_prob > 0.5:
+                st.write("""
+                There are several strategies that businesses can use to improve customer conversion rates. Here are a few suggestions:
+
+                1. Improve the usability and design of the website: A well-designed and easy-to-use website can make it easier for potential customers to find what they are looking for and take the desired action.
+                2. Offer a clear value proposition: Make sure that it is clear to potential customers why they should choose your product or service over others. This can be done through effective policy descriptions and other marketing materials.
+                3. Use social proof: Social proof is the idea that people are more likely to take action if they see others doing the same. You can use customer reviews, testimonials, and other forms of social proof to show potential customers that others have had success with your service.
+                4. Simplify the checkout process: Reduce the number of steps required to complete a purchase, and make it easy for customers to input their payment and shipping information.
+                5. Provide excellent customer service: Prompt and helpful customer service can help to build trust and confidence in your business, which can lead to increased conversion rates.
+                """)
         else:
             st.info("Please submit the customer information", icon="👈")
      
