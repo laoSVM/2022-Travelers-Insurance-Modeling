@@ -390,6 +390,7 @@ def main():
                             values='sample_size', names='discount')
                 fig.update_traces(textposition='inside', textinfo='percent+label')
                 fig.update_layout(
+                    margin={"t":0,"l":20,"b":0,"r":0},
                     title='Sample Proportions',
                     legend_title="Discount")
                 st.plotly_chart(fig)
