@@ -218,7 +218,7 @@ def main():
             fig = px.bar(
                 family_cov, x="family_status", y="conversion_rate")
             fig.update_layout(
-                width=500,
+                width=500, height=500,
                 bargap=0.5,
                 yaxis_range=[0.05, 0.15],
                 xaxis_title=None)
