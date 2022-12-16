@@ -188,7 +188,7 @@ def main():
             pass
 
     with customerTab:
-        st.info("We have identified four types of customers.")
+        st.info("We have segmented our customers into five groups.")
         csProf = st.columns(5)
         csProf[0].write("""
         :man-woman-girl-girl:**Family**  
