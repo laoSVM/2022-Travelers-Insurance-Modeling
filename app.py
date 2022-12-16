@@ -232,7 +232,7 @@ def main():
             fig.update_layout(
                 legend_title="Family Status",
                 width=500,
-                margin={"t":0,"l":10,"b":0,"r":0},
+                margin={"t":0,"l":20,"b":0,"r":0},
             )
             st.plotly_chart(fig) 
         # Analysis selection
