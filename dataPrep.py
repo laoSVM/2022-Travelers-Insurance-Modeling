@@ -154,8 +154,8 @@ def get_conversion_rate(df, variables=['var1','var2'], pivot=False):
     return var_pivot if pivot else var_count
 
 # Testing
-if __name__=="__main__":
-    tmp = plot_family_status()
+if __name__ == "__main__":
+    family_df = plot_family_status()
     print(
-        tmp.head()
+        get_conversion_rate(family_df, ['family_status']).sort_values('conversion_rate', ascending=False)
     )
