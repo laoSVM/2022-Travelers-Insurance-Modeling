@@ -241,7 +241,7 @@ def main():
             'Are conversion rates different among groups?',
             'More analysis inprogress...'
         ]
-        customerQuest = st.selectbox('More detailed analysis', customerQuests)
+        customerQuest = st.selectbox('More detailed analysis', customerQuests, index=1)
 
         if customerQuest == customerQuests[0]:
             agg_dict = {
