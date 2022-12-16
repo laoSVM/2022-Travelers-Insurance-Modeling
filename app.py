@@ -210,6 +210,28 @@ def main():
         :girl:**Dependent Child**  
         Teenagers typically under 20 who are on their own policy.
         """)
+        family_df = plot_family_status()
+        # policy_family = family_df.groupby('policy_id', as_index= False).first()[['policy_id', 'number_drivers', 'convert_ind', 'family_status']]
+        left, right = st.columns([2,4])
+        with left:
+            family_cov = get_conversion_rate(family_df, ['family_status']).sort_values('conversion_rate', ascending=False)
+            fig = px.bar(
+                family_cov, x="family_status", y="conversion_rate")
+            fig.update_layout(
+                width=600, height=600,
+                yaxis_range=[0.05, 0.15],
+                xaxis_title='')
+            st.plotly_chart(fig)
+        with right:
+            cnt_family = family_df.groupby('family_status', as_index=False).count()[['family_status','policy_id']].rename(columns={'policy_id': 'count'})
+            fig = px.pie(cnt_family,
+                        values='count', names='family_status')
+            fig.update_traces(textposition='inside', textinfo='percent+label')
+            fig.update_layout(
+                legend_title="Discount"
+            )
+            st.plotly_chart(fig) 
+        # Analysis selection
         customerQuests = [
             'How does family size affect conversion?',
             'Are conversion rates different among groups?',

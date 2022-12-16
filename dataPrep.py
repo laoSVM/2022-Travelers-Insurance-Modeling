@@ -33,8 +33,26 @@ def load_df(train_test_split=True):
         df[lambda x: x.split == 'Test'].drop(['split'], axis=1)
     ) if train_test_split else df
 
+def fill_missing(df):
+    """the dtypes of the predictors should match their meaning"""
+    # initialize a new df
+    train_fill = pd.DataFrame()
+    # find the numeric variables
+    num_var = df.select_dtypes(include=['float']).columns
+    # fill the categorical vars with missing or 0 (label encoded or discrete vars)
+    for i, predictor in enumerate(df.drop(columns=num_var)):
+        try:
+            train_fill[predictor] = df[predictor].fillna('Missing')
+        except:
+            train_fill[predictor] = df[predictor].fillna(0)
+    # fill the numeric vars with mean
+    for i, predictor in enumerate(df[num_var]):
+        train_fill[predictor] = df[predictor].fillna(df[predictor].mean())
+    return train_fill
+
 def get_policy_df():
-    policy = pd.read_csv(os.path.join(data_dir, 'policies.csv'))
+    """return training set loaded from the original policy dataset with preprocessing"""
+    policy = pd.read_csv(os.path.join(data_dir, 'policies.csv'), index_col=0)
     policy['quoted_amt'] = policy.quoted_amt.str.replace(r'\D+', '', regex=True).astype('float')
     policy = df_type_trans(policy)
     policy = policy.assign(
@@ -62,6 +80,34 @@ def query_ts_data(resample='M', query=None):
         df = get_ts_data()
     query_df = df.set_index('Quote_dt')['convert_ind'].resample(resample).apply(['sum','count']).assign(cov_rate = lambda x: x['sum']/x['count'])
     return query_df
+
+# Customer data
+def plot_family_status():
+    vars = ['policy_id', 'number_drivers', 'gender', 'living_status', 'high_education_ind', 'age', 'convert_ind']
+    df,_ = load_df()
+    train_fill = fill_missing(df)
+    family_df = train_fill[vars]
+    # get family status label
+    adults = family_df.iloc[np.where(family_df.living_status != 'dependent')].groupby('policy_id', as_index=False)['convert_ind'].count().rename(columns={'convert_ind': 'adult_count'})
+    children = family_df.iloc[np.where(family_df.living_status == 'dependent')].groupby('policy_id', as_index=False)['convert_ind'].count().rename(columns={'convert_ind': 'children_count'})
+    family_df = pd.merge(family_df, adults, on='policy_id', how='left')
+    family_df['adult_count'] = family_df['adult_count'].fillna(0.0)  # there are certain families have no adult
+    family_df = pd.merge(family_df, children, on='policy_id', how='left')
+    family_df['children_count'] = family_df['children_count'].fillna(0.0)  # there are certain families have no children  
+    family_df = family_df.assign(
+        family_status=lambda x: np.where(
+            (x.adult_count == 2) & (x.children_count == 0), "Couple", np.where(
+                (x.adult_count == 1) & (x.children_count > 0), "Single Parent", np.where(
+                    (x.adult_count == 1) & (x.children_count == 0), "Single Adult", np.where(
+                        x.adult_count == 0, "Dependent Child", "Family"))))
+    )
+    try:
+        # children living status is missing, however still considered a couple
+        policy_26680_family = family_df.iloc[np.where(family_df.policy_id=="policy_26680")].replace("Family", "Couple")
+        family_df[lambda x: x.policy_id=="policy_26680"] = policy_26680_family
+    except:
+        None
+    return family_df
 
 # Sales analysis data
 def get_revenue_df():
@@ -107,7 +153,9 @@ def get_conversion_rate(df, variables=['var1','var2'], pivot=False):
         pivot = False
     return var_pivot if pivot else var_count
 
-## Testing
-# print(
-#     (get_ts_data().loc[lambda x: (x.Quote_dt<="2017-06-30") & (x.Quote_dt>="2017-06-01"), ['convert_ind']])
-# )
+# Testing
+if __name__=="__main__":
+    tmp = plot_family_status()
+    print(
+        tmp.head()
+    )
