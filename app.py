@@ -316,6 +316,7 @@ def main():
                 paper_bgcolor='rgba(0, 0, 0, 0)', # remove bg in figure area 
             )
             fig.update_traces(width=0.5)
+            fig.update_layout(margin={"r":0,"t":0,"l":80,"b":80})
             st.plotly_chart(fig)
         with right:
             granularity = st.radio(
@@ -339,7 +340,7 @@ def main():
                     color='revenue', color_continuous_scale="ice",
                     hover_data=['state_id','county_name'],
                     scope="usa")
-            fig.update_layout(margin={"r":0,"t":0,"l":80,"b":0})
+            fig.update_layout(margin={"r":40,"t":0,"l":80,"b":0})
             st.plotly_chart(fig)
 
         # More detailed analysis
