@@ -28,7 +28,7 @@ st.markdown(hide_st_style, unsafe_allow_html=True)
 benchmark_file = "benchmark_2.pkl"
 
 # cache the model
-@st.cache
+@st.cache(ttl=24*3600)
 def get_model(benchmark_file):
     with open(benchmark_file, 'rb') as f:
         benchmark = pickle.load(f)
