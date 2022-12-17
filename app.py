@@ -309,14 +309,14 @@ def main():
             fig.update_layout(
                 # xaxis=dict(autorange="reversed"),
                 yaxis_title=None,
-                width=350,
+                width=300,
                 bargap=0.5,
                 margin={"t":0,"l":20},
                 plot_bgcolor='rgba(0, 0, 0, 0)', # remove bg in plot area
                 paper_bgcolor='rgba(0, 0, 0, 0)', # remove bg in figure area 
             )
             fig.update_traces(width=0.5)
-            fig.update_layout(margin={"r":0,"t":0,"l":80,"b":80})
+            fig.update_layout(margin={"r":20,"t":0,"l":20,"b":80})
             st.plotly_chart(fig)
         with right:
             granularity = st.radio(
