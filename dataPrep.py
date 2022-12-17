@@ -164,7 +164,7 @@ def get_conversion_rate(df, variables=['var1','var2'], pivot=False):
 
 # Testing
 if __name__ == "__main__":
-    family_df = plot_family_status()
+    ts = get_ts_data()
     print(
-        get_conversion_rate(family_df, ['family_status']).sort_values('conversion_rate', ascending=False)
+        ts.head(), "\n", ts.shape
     )

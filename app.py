@@ -165,7 +165,13 @@ def main():
                         'cov_rate': 'Conversion'
                     })
                 st.plotly_chart(fig)
-            
+            # Testing
+            # left, right = st.columns([1,4])
+            # with left:
+            #     pass
+            # with right:
+            #     pass
+
         if tsQuest == tsQuests[1]:
             st.subheader("We do not observe apparent autocorrelation and seasonality with conversion rates.")
             st.image(Image.open("./Image/partial correlation.png"))
@@ -316,7 +322,7 @@ def main():
                 paper_bgcolor='rgba(0, 0, 0, 0)', # remove bg in figure area 
             )
             fig.update_traces(width=0.5)
-            fig.update_layout(margin={"r":20,"t":0,"l":20,"b":80})
+            fig.update_layout(margin={"r":0,"t":0,"l":20,"b":80})
             st.plotly_chart(fig)
         with right:
             granularity = st.radio(
