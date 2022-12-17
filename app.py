@@ -118,7 +118,7 @@ def main():
         fig.update_layout(
             title={
                 'y':0.9,
-                'x':0.5,})
+                'x':0.9,})
         st.plotly_chart(fig)
 
         # assumptions
