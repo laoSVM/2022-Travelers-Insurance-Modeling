@@ -118,7 +118,7 @@ def main():
         fig.update_layout(
             title={
                 'y':0.9,
-                'x':0.9,})
+                'x':0.5,})
         st.plotly_chart(fig)
 
         # assumptions
@@ -332,16 +332,16 @@ def main():
                     color=states_revenue.revenue.tolist(),
                     color_continuous_scale='ice')
                 fig.update_geos(fitbounds="locations", visible=True)
-                fig.update_layout(margin={"r":0,"t":0,"l":0,"b":0})
-                st.plotly_chart(fig)
+
             if granularity == "Counties":
                 fig = px.choropleth(
                     revenue_df, geojson=counties, locations='fips', 
                     color='revenue', color_continuous_scale="ice",
                     hover_data=['state_id','county_name'],
                     scope="usa")
-                fig.update_layout(margin={"r":0,"t":0,"l":0,"b":0})
-                st.plotly_chart(fig)
+            fig.update_layout(margin={"r":0,"t":0,"l":80,"b":0})
+            st.plotly_chart(fig)
+
         # More detailed analysis
         salesQuests = [
             'Does providing discount increase conversion? -- A/B Test',
