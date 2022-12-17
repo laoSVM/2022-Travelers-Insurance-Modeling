@@ -3,6 +3,7 @@ import pandas as pd
 import os
 from urllib.request import urlopen
 import json
+import streamlit as st
 
 data_dir = './Data'
 
@@ -18,6 +19,7 @@ def df_type_trans(df):
         None
     return df
 
+@st.cache(ttl=24*3600)
 def load_df(train_test_split=True):
     """join policy and driver dataset, each record represents a driver on the policy"""
     df = pd.read_csv(os.path.join(data_dir, 'analytical_df.csv'))
@@ -50,6 +52,7 @@ def fill_missing(df):
         train_fill[predictor] = df[predictor].fillna(df[predictor].mean())
     return train_fill
 
+@st.cache(ttl=36*3600)
 def get_policy_df():
     """return training set loaded from the original policy dataset with preprocessing"""
     policy = pd.read_csv(os.path.join(data_dir, 'policies.csv'), index_col=0)
@@ -63,6 +66,7 @@ def get_policy_df():
     return policy[lambda x: x.split == 'Train'].drop(['split'], axis=1)
 
 # Time series data
+@st.cache(ttl=24*3600)
 def get_ts_data(train_test_split=True, get_holiday=False):
     # do not use test data in time series analysis
     df,_ = load_df(train_test_split=train_test_split)
@@ -72,6 +76,7 @@ def get_ts_data(train_test_split=True, get_holiday=False):
     df = df.groupby('policy_id', as_index= False).first()
     return df
 
+@st.cache(ttl=24*3600)
 def query_ts_data(resample='M', query=None):
     '''resample: specifies the resample rule; query: to slice df'''
     if query is not None:
@@ -82,6 +87,7 @@ def query_ts_data(resample='M', query=None):
     return query_df
 
 # Customer data
+@st.cache(ttl=24*3600)
 def plot_family_status():
     vars = ['policy_id', 'number_drivers', 'gender', 'living_status', 'high_education_ind', 'age', 'convert_ind']
     df,_ = load_df()
@@ -110,6 +116,7 @@ def plot_family_status():
     return family_df
 
 # Sales analysis data
+@st.cache(ttl=24*3600)
 def get_revenue_df():
     '''returns the revenue_df and counties geojson file for county based map plot'''
     policy = get_policy_df()
