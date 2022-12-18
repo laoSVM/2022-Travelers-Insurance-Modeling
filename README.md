@@ -10,6 +10,14 @@ The data for this project was provided by [Travelers](https://www.kaggle.com/com
 
 The data was cleaned and explored to identify any trends or patterns that could be used to predict conversion rates.
 
+In our exploratory data analysis (EDA) process, we used different techniques in order to gain insights, identify patterns, and test hypotheses.
+
+- Visualization: We used the most common visualizations like line graphs, bar charts, and histograms. They are simple but effective to view and understand the data in a visual format.
+- Summary statistics: Calculating summary statistics such as mean, median, mode, and standard deviation help us get a sense of the distribution of numeric data. We have identified outliers in Age variable and skew distribution in other variables, such as safety rating and quoted amount.
+- Data cleaning and preparation: To ensure the data was in a usable state, we first performed data cleaning to correct any data type issues and ensure that the data was in good condition. There are various techniques for dealing with missing values and outliers, and we applied different methods as needed throughout the project to meet our specific objectives. For instance, we used box-cox transformation to normalize skewed variables.
+- Correlation analysis: Identifying correlations between different variables can help understand how variables are related and identify potential causal relationships. In our analysis, we calculated bivariate correlations using the Pearson correlation coefficient and visualized them with a heatmap.
+- Statistical testing: We conducted an A/B test to compare the conversion rate of customers who were given a discount versus those who were not. Our analysis revealed that the discount had a significant impact on improving conversion, but only prior to 2017. For more detailed information, please see the jupyter notebook.
+
 # Model
 
 Several machine learning algorithms were tested and evaluated to determine the best model for the task, including lightGBM, XGBoost, and Neural Networks.
