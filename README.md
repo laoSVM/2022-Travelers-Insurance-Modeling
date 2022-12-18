@@ -30,18 +30,22 @@ Finally, we used a feature importance plot to further refine our selection proce
 
 # Dashboard
 
-A BI dashboard was created to visualize the results of the model and allow for easy interpretation by stakeholders. The dashboard includes four topics.
+A BI dashboard was created and deployed on Streamlit Cloud to visualize the results of the model and allow for easy interpretation by stakeholders. The dashboard includes four topics. 
 
-The App is deployed on Streamlit Cloud [Here](https://laosvm-2022-travelers-insurance-modeling-app-ip8h49.streamlit.app/).
+- **The time series analysis** section includes visualizations and analysis related to how conversion metrics have changed over time. 
+- **The customer segmentation analysis** section includes five customer groups and analysis related to how customers are segmented and how different segments behave. 
+- **The marketing and sales analysis** section includes visualizations and analysis related to the general marketing and sales efforts and their effectiveness. 
+- **The model prediction** section utilizes a predictive model to forecast customer conversions based on user-input data. The model's predictions are accompanied by recommendations for improving conversion rates and maximizing revenue through targeted marketing and sales efforts. This analysis is valuable in identifying opportunities for optimization and growth.
+
+<a href="https://laosvm-2022-travelers-insurance-modeling-app-ip8h49.streamlit.app/">
+    <img src="/Img/Dashboard front.png" width="500px">
+</a>
 
 
 # Conclusion
 
-Overall, this project was successful in creating a machine learning model that can accurately predict customer conversion rates for an auto dealership. The BI dashboard provides a useful tool for stakeholders to understand and interpret the results of the model.
+Overall, this project was successful in creating a machine learning model that can accurately predict customer conversion rates for an auto insurance company. The BI dashboard provides a comprehensive tool for stakeholders to understand and interpret the results of the model. It was designed to provide a holistic view of the business and help companies make informed decisions based on historical data.
 
 # Future Work
 
 There are several areas for future improvement, including feature engineering, model fine tuning, etc.
-
-
-
