@@ -38,7 +38,7 @@ A BI dashboard was created and deployed on Streamlit Cloud to visualize the resu
 - **The model prediction** section utilizes a predictive model to forecast customer conversions based on user-input data. The model's predictions are accompanied by recommendations for improving conversion rates and maximizing revenue through targeted marketing and sales efforts. This analysis is valuable in identifying opportunities for optimization and growth.
 
 <a href="https://laosvm-2022-travelers-insurance-modeling-app-ip8h49.streamlit.app/">
-    <img src="/Img/Dashboard front.png" width="500px">
+    <img src="/Image/Dashboard front.png" width="500px">
 </a>
 
 
