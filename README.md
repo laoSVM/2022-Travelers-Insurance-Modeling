@@ -1,5 +1,7 @@
 # Introduction
 
+<img src="/Image/new car.png">
+
 This project is focused on creating a machine learning model to predict customer conversion rates for an auto insurance company. The project includes data analysis, model building, and the creation of a BI dashboard to visualize the results.
 
 # Data
