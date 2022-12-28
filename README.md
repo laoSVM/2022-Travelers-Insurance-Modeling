@@ -4,6 +4,11 @@
 
 This project is focused on creating a machine learning model to predict customer conversion rates for an auto insurance company. The project includes data analysis, model building, and the creation of a BI dashboard to visualize the results.
 
+**Objectives:**
+- Identify quoted policies that the company will convert (a.k.a. issue)
+- Understand key characteristics of policies the company tends to write, as well as those they tend not to write (e.g. understand quoted policies with both high and low conversion rates)
+- Provide a recommendation on how this information could be leveraged at the company
+
 # Data
 
 The data for this project was provided by [Travelers](https://www.kaggle.com/competitions/zamnrq1n2yz/data), including customer historical and demographic information.
